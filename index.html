@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rise Again - A Safe Space to Heal</title>
+  <link rel="icon" type="logo.jpg" href="favicon.png">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body { font-family: 'Lato', sans-serif; }
+    h1, h2, h3, h4, h5, h6 { font-family: 'Lora', serif; }
+    .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.8s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+
+<body class="bg-[#F9F5EF] text-[#4E403B] antialiased">
+  <!-- Navbar -->
+  <header id="navbar" class="fixed top-0 w-full bg-[#F3E6DA]/90 backdrop-blur-md z-50 transition-shadow">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-5">
+      <!-- Logo + Title -->
+      <div class="flex items-center gap-3 flex-shrink-0">
+        <img src="logo.jpg" alt="Rise Again Logo" class="w-10 h-10 object-contain rounded-full" />
+        <h2 class="text-xl font-bold font-display text-[#4E403B]">Rise Again</h2>
+      </div>
+
+      <!-- Hamburger (visible only on mobile) -->
+      <button id="menu-btn" class="md:hidden text-[#4E403B] focus:outline-none">
+        <span class="material-symbols-outlined text-3xl">Menu</span>
+      </button>
+
+      <!-- Desktop Menu -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="#about" class="hover:text-[#E5735F] transition-colors">About Us</a>
+        <a href="#features" class="hover:text-[#E5735F] transition-colors">Our Approach</a>
+        <a href="login.html" class="hover:text-[#E5735F] transition-colors">Log In</a>
+        <button class="bg-[#E5735F]/10 text-[#4E403B] px-4 py-2 rounded-full font-semibold hover:bg-[#E5735F]/20 transition-colors">
+          Sign Up
+        </button>
+      </nav>
+    </div>
+
+    <!-- Mobile Dropdown -->
+    <nav id="mobile-menu"
+      class="hidden flex-col items-center gap-5 py-6 md:hidden bg-[#F3E6DA]/95 border-t border-[#4E403B]/10 text-center">
+      <a href="#about" class="hover:text-[#E5735F] text-base transition-colors">About Us</a>
+      <a href="#features" class="hover:text-[#E5735F] text-base transition-colors">Our Approach</a>
+      <a href="login.html" class="hover:text-[#E5735F] text-base transition-colors">Log In</a>
+      <a href="signup.html" 
+        class="bg-[#E5735F]/10 text-[#4E403B] px-4 py-2 rounded-full font-semibold hover:bg-[#E5735F]/20 transition-colors inline-block text-center">
+         Sign Up
+      </a>
+
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="flex flex-col items-center justify-center text-center min-h-screen px-6 pt-40 pb-20">
+    <h1 class="fade-in text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-semibold leading-tight max-w-4xl">
+      Healing is not a Destination, it is a Process.
+    </h1>
+    <p class="fade-in text-lg sm:text-xl text-[#6B5E56] mt-6 max-w-2xl">
+      Rise Again provides a supportive digital sanctuary for trauma survivors to find guidance, resources, and community on their path to recovery.
+    </p>
+    <button onclick="window.location.href='signup.html'" class="fade-in mt-10 bg-[#E5735F] text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-[#D85C48] transition-transform transform hover:scale-105">
+        Start Your Healing Journey
+    </button>
+
+  </section>
+
+  <!-- About Us Section -->
+  <section id="about" class="fade-in py-28 px-6 bg-[#F3E6DA] text-center">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-3xl sm:text-4xl font-display text-[#4E403B] mb-8">About Us</h2>
+      <p class="text-lg sm:text-xl text-[#6B5E56] leading-relaxed mb-6">
+        Rise Again is a caring digital platform that helps survivors of <span class="text-[#E5735F] font-semibold">sexual assault, acid attacks, harassment, and domestic violence</span>.
+        We know that recovery involves more than safety; it also means regaining identity, confidence, and hope.
+      </p>
+      <p class="text-lg sm:text-xl text-[#6B5E56] leading-relaxed mb-6">
+        Our mission is to provide a <span class="text-[#E5735F] font-semibold">safe, unified, and private space</span> where survivors can find emotional support, community connection,
+        legal guidance, and resources for personal growth—all in one place. Through our <span class="font-semibold">AI Chatbot Ally</span>, <span class="font-semibold">Encrypted Digital Locker</span>,
+        <span class="font-semibold">Anonymous Community</span>, and <span class="font-semibold">Healing & Guidance Hubs</span>, we combine technology and empathy to support survivors from crisis to recovery.
+      </p>
+      <p class="text-lg sm:text-xl text-[#6B5E56] leading-relaxed">
+        We believe healing is personal, but no one should face it alone. By working with NGOs, mental health professionals, and social impact partners,
+        Rise Again helps every survivor <span class="text-[#E5735F] font-semibold">rebuild, reclaim, and rise again</span> with dignity and support.
+      </p>
+    </div>
+  </section>
+
+  <!-- Our Approach Section -->
+  <section id="features" class="fade-in text-center py-28 px-6 bg-[#F9F5EF]">
+    <h2 class="text-3xl sm:text-4xl font-display mb-6">Our Approach</h2>
+    <p class="max-w-2xl mx-auto text-[#6B5E56] mb-16">
+      Our platform is built on principles of safety, guidance, and understanding.
+    </p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto">
+      <div class="bg-white shadow-md hover:shadow-lg rounded-xl p-8 transition-transform hover:scale-105">
+        <span class="material-symbols-outlined text-5xl text-[#E5735F] mb-4">shield</span>
+        <h3 class="text-xl font-semibold mb-2">A Private Sanctuary</h3>
+        <p class="text-[#6B5E56]">Your journey is confidential in a secure, anonymous environment designed for your comfort.</p>
+      </div>
+
+      <div class="bg-white shadow-md hover:shadow-lg rounded-xl p-8 transition-transform hover:scale-105">
+        <span class="material-symbols-outlined text-5xl text-[#E5735F] mb-4">spa</span>
+        <h3 class="text-xl font-semibold mb-2">Expert-Guided Paths</h3>
+        <p class="text-[#6B5E56]">Access resources and exercises curated by trauma-informed specialists to support your healing.</p>
+      </div>
+
+      <div class="bg-white shadow-md hover:shadow-lg rounded-xl p-8 transition-transform hover:scale-105">
+        <span class="material-symbols-outlined text-5xl text-[#E5735F] mb-4">diversity_3</span>
+        <h3 class="text-xl font-semibold mb-2">A Community That Understands</h3>
+        <p class="text-[#6B5E56]">Connect with fellow survivors in a moderated, empathetic space where you are never alone.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[#F3E6DA] text-center py-12 border-t border-[#CFC6BB]/40">
+    <div class="max-w-5xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10 text-left">
+      <div>
+        <h3 class="text-lg font-semibold text-[#4E403B] mb-3">About Rise Again</h3>
+        <p class="text-sm text-[#6B5E56] leading-relaxed">
+          Rise Again is a compassionate digital sanctuary supporting survivors on their healing journey through guidance, resources, and community.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold text-[#4E403B] mb-3">Quick Links</h3>
+        <ul class="space-y-2 text-sm text-[#6B5E56]">
+          <li><a href="#about" class="hover:text-[#E5735F]">About Us</a></li>
+          <li><a href="#features" class="hover:text-[#E5735F]">Our Approach</a></li>
+          <li><a href="#" class="hover:text-[#E5735F]">Terms of Use</a></li>
+          <li><a href="#" class="hover:text-[#E5735F]">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold text-[#4E403B] mb-3">Get in Touch</h3>
+        <p class="text-sm text-[#6B5E56]">Email: <a href="mailto:contact@riseagain.org" class="hover:text-[#E5735F]">contact@riseagain.org</a></p>
+        <p class="text-sm text-[#6B5E56] mt-1">Phone: +91 98765 43210</p>
+      </div>
+    </div>
+
+    <p class="text-[#6B5E56]/70 text-sm mt-10">© 2025 Rise Again. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Navbar shadow on scroll
+    window.addEventListener("scroll", () => {
+      const navbar = document.getElementById("navbar");
+      if (window.scrollY > 50) navbar.classList.add("shadow-md");
+      else navbar.classList.remove("shadow-md");
+    });
+
+    // Fade-in animation
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.2 });
+    document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
+
+    // Mobile menu toggle
+    document.getElementById("menu-btn").addEventListener("click", () => {
+      document.getElementById("mobile-menu").classList.toggle("hidden");
+    });
+  </script>
+</body>
+</html>
