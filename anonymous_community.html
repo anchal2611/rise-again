@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rise Again | Anonymous Community</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    html { scroll-behavior: smooth; }
+    .fade-in { animation: fadeIn 0.3s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
+  </style>
+</head>
+
+<body class="font-display bg-[#F5F0E6] text-[#4E403B] min-h-screen flex flex-col">
+
+  <!-- 🧠 MAIN COMMUNITY CONTENT -->
+  <main class="flex-1 w-full max-w-3xl mx-auto px-4 py-8 space-y-6">
+    <section>
+      <h2 class="text-3xl sm:text-4xl font-extrabold mb-2">Anonymous Community Forum</h2>
+      <p class="text-[#7c6c66] text-base">
+        A safe space to share, heal, and connect — free from judgment.
+      </p>
+    </section>
+
+    <!-- ✍️ Composer -->
+    <section class="bg-[#FAF7F2] border border-[#e6d4d1] rounded-xl shadow p-5 space-y-4">
+      <textarea id="postInput" maxlength="500" placeholder="What’s on your mind? Share your story..." 
+        class="w-full bg-transparent border-none focus:ring-0 resize-none placeholder:text-[#955b50] text-base min-h-[80px]"></textarea>
+      <div class="flex justify-between items-center text-sm text-[#955b50]">
+        <span id="charCount">0 / 500</span>
+        <button id="postBtn" class="bg-[#e6634c] text-white font-medium px-5 py-2 rounded-lg hover:opacity-90 transition disabled:opacity-40 disabled:cursor-not-allowed">Create Post</button>
+      </div>
+    </section>
+
+    <!-- 📰 Feed -->
+    <div id="feed" class="space-y-4"></div>
+  </main>
+
+  <!-- 🧾 Footer -->
+  <footer class="border-t border-[#e6d4d1] mt-12 py-6 text-center text-sm text-[#955b50]">
+    © 2025 Rise Again | <a href="#" class="hover:text-[#e6634c]">Community Guidelines</a> · <a href="#" class="hover:text-[#e6634c]">Privacy Policy</a>
+  </footer>
+
+  <!-- ✅ FIREBASE SCRIPT -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      onSnapshot,
+      query,
+      orderBy,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+
+    // 🔥 Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBFITDK4_gch6haF8TQHdt2VL6Wl1j-0ds",
+      authDomain: "riseagain-334f7.firebaseapp.com",
+      projectId: "riseagain-334f7",
+      storageBucket: "riseagain-334f7.appspot.com",
+      messagingSenderId: "608024652359",
+      appId: "1:608024652359:web:8d3211afd24bd0f2815f62",
+      measurementId: "G-FCKHSRLSE5"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const postInput = document.getElementById("postInput");
+    const postBtn = document.getElementById("postBtn");
+    const feed = document.getElementById("feed");
+    const charCount = document.getElementById("charCount");
+    const postsRef = collection(db, "posts");
+
+    // 🔢 Character count
+    postInput.addEventListener("input", () => {
+      charCount.textContent = `${postInput.value.length} / 500`;
+      postBtn.disabled = postInput.value.trim().length === 0;
+    });
+
+    // ✍️ Create post
+    postBtn.addEventListener("click", async () => {
+      const text = postInput.value.trim();
+      if (!text) return;
+      await addDoc(postsRef, {
+        content: text,
+        createdAt: serverTimestamp()
+      });
+      postInput.value = "";
+      charCount.textContent = "0 / 500";
+      postBtn.disabled = true;
+    });
+
+    // 🧠 Load posts + comments
+    const loadPosts = () => {
+      const q = query(postsRef, orderBy("createdAt", "desc"));
+      onSnapshot(q, (snapshot) => {
+        feed.innerHTML = "";
+        snapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          const postId = docSnap.id;
+          const postEl = document.createElement("article");
+          postEl.className = "fade-in bg-[#FAF7F2] border border-[#e6d4d1] rounded-xl shadow p-6 space-y-3";
+          postEl.innerHTML = `
+            <div class="flex justify-between items-center text-sm text-[#955b50]">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-cover bg-center rounded-full" style="background-image:url('https://placehold.co/100x100');"></div>
+                <span>${data.createdAt ? data.createdAt.toDate().toLocaleString() : "Just now"}</span>
+              </div>
+            </div>
+            <p class="text-[#4E403B] leading-relaxed">${data.content}</p>
+            <div class="flex gap-4 pt-2">
+              <button class="comment-btn flex items-center gap-2 text-[#955b50] hover:text-[#e6634c]">
+                <span class="material-symbols-outlined text-lg">mode_comment</span>
+                <span class="comment-count">0</span>
+              </button>
+            </div>
+            <div class="hidden comment-section mt-3 space-y-2">
+              <textarea class="comment-input w-full bg-transparent border rounded-lg border-[#e6d4d1] p-2 text-sm placeholder:text-[#955b50]" rows="2" placeholder="Write a comment..."></textarea>
+              <button class="submit-comment bg-[#e6634c] text-white px-3 py-1 rounded-lg text-sm font-medium">Post Comment</button>
+              <div class="comments space-y-2 mt-2"></div>
+            </div>
+          `;
+          feed.appendChild(postEl);
+
+          // Load comments
+          const commentsRef = collection(db, "posts", postId, "comments");
+          const commentsContainer = postEl.querySelector(".comments");
+          const commentCount = postEl.querySelector(".comment-count");
+          onSnapshot(query(commentsRef, orderBy("createdAt", "asc")), (commentsSnap) => {
+            commentsContainer.innerHTML = "";
+            commentCount.textContent = commentsSnap.size;
+            commentsSnap.forEach((c) => {
+              const cData = c.data();
+              const p = document.createElement("p");
+              p.className = "text-sm border-b border-[#e6d4d1]/40 pb-1";
+              p.textContent = cData.text;
+              commentsContainer.appendChild(p);
+            });
+          });
+
+          // Add comment
+          const commentBtn = postEl.querySelector(".comment-btn");
+          const commentSection = postEl.querySelector(".comment-section");
+          const submitComment = postEl.querySelector(".submit-comment");
+          const commentInput = postEl.querySelector(".comment-input");
+          commentBtn.addEventListener("click", () => commentSection.classList.toggle("hidden"));
+          submitComment.addEventListener("click", async () => {
+            const text = commentInput.value.trim();
+            if (!text) return;
+            await addDoc(commentsRef, {
+              text,
+              createdAt: serverTimestamp()
+            });
+            commentInput.value = "";
+          });
+        });
+      });
+    };
+
+    loadPosts();
+  </script>
+</body>
+</html>
