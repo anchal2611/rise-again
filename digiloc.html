@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Locker</title>
+  <link rel="stylesheet" href="digiloc.css" />
+  <style>
+      /* ...aapki saari CSS... */
+    </style>
+</head>
+
+<style>
+    /* --- Root Variables (Light Theme) --- */
+    :root {
+        --primary: #e6634c;
+        --background: #f5f0e6;
+        --text-primary: #4e403b;
+        --text-secondary: #7c6c66;
+        --card: #fbf9f8;
+        --accent: #f5f0e6;
+        --accent-active: #e6634c; /* Using primary as active */
+        --accent-active-text: #ffffff; /* Text for active accent */
+        --border-color: rgba(78, 64, 59, 0.1); /* Derived from accent-light/50 */
+
+        --font-display: "Lora", serif;
+        --font-body: "Lato", sans-serif;
+    }
+
+    /* --- Dark Theme Variables --- */
+    body.dark-theme {
+        --background: #211411;
+        --text-primary: #e0d9d1;
+        --text-secondary: #b0a39d;
+        --card: #3a302e;
+        --accent: rgba(230, 99, 76, 0.2);
+        --accent-active: rgba(230, 99, 76, 0.3);
+        --accent-active-text: #e0d9d1;
+        --border-color: rgba(230, 99, 76, 0.2);
+    }
+
+    /* --- Base Styles (Partial) --- */
+    /* Yahaan poore 'body' ya '*' par margin/padding 0 nahi kar rahe hain 
+       taaki yeh aapke main page ki CSS se conflict na kare.
+       Aapki main CSS file mein yeh styles hone chahiye.
+    */
+    .sidebar *, .mobile-header * {
+        box-sizing: border-box;
+    }
+
+    /* --- Mobile Header --- */
+    .mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 1rem;
+        background-color: var(--card);
+        border-bottom: 1px solid var(--border-color);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 40;
+    }
+
+    @media (min-width: 768px) {
+        .mobile-header {
+            display: none;
+        }
+    }
+
+    .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .logo-img {
+        height: 2rem;
+        width: 2rem;
+    }
+
+    .logo-title {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0; /* Reset margin */
+    }
+
+    .icon-button {
+        color: var(--text-primary);
+        font-size: 1.5rem; /* text-2xl */
+        font-family: inherit;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0; /* Reset padding */
+    }
+
+    /* --- Sidebar --- */
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 256px; /* w-64 */
+        background-color: var(--card);
+        border-right: 1px solid var(--border-color);
+        padding: 1rem;
+        height: 100vh;
+        
+        /* Mobile styles */
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 50;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .sidebar.is-open {
+        transform: translateX(0);
+    }
+
+    .sidebar-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 0.75rem; /* px-3 */
+    }
+
+    .sidebar-top {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem; /* gap-8 */
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem; /* gap-2 */
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem; /* gap-3 */
+        padding: 0.5rem 0.75rem; /* px-3 py-2 */
+        border-radius: 0.5rem; /* rounded-lg */
+        transition: background-color 0.2s;
+        text-decoration: none;
+    }
+
+    .nav-link p {
+        font-family: var(--font-body);
+        font-size: 0.875rem; /* text-sm */
+        font-weight: 500; /* font-medium */
+        line-height: 1.4;
+        color: var(--text-primary);
+        margin: 0; /* Reset margin */
+    }
+
+    .nav-link i {
+        color: var(--text-secondary);
+    }
+
+    .nav-link:hover {
+        background-color: var(--accent);
+    }
+
+    .nav-link.active {
+        background-color: var(--accent-active);
+    }
+
+    .nav-link.active p,
+    .nav-link.active i {
+        color: var(--accent-active-text);
+    }
+    body.dark-theme .nav-link.active p,
+    body.dark-theme .nav-link.active i {
+        color: var(--accent-active-text);
+    }
+
+
+    .sidebar-bottom {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem; /* gap-2 */
+    }
+
+    .divider {
+        border-top: 1px solid var(--border-color);
+        margin: 0.5rem 0; /* my-2 */
+    }
+
+    .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem; /* gap-3 */
+        padding: 0.5rem 0.75rem; /* px-3 py-2 */
+    }
+
+    .avatar {
+        width: 2.5rem; /* size-10 */
+        height: 2.5rem;
+        border-radius: 9999px; /* rounded-full */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .user-details h1 {
+        font-family: var(--font-display);
+        font-size: 1rem; /* text-base */
+        font-weight: 500;
+        color: var(--text-primary);
+        margin: 0; /* Reset margin */
+    }
+
+    .user-details p {
+        font-family: var(--font-body);
+        font-size: 0.875rem; /* text-sm */
+        font-weight: 400;
+        color: var(--text-secondary);
+        margin: 0; /* Reset margin */
+    }
+
+    /* --- Media Queries for Desktop Layout --- */
+    @media (min-width: 768px) {
+        #close-sidebar-button {
+            display: none;
+        }
+
+        .sidebar {
+            position: sticky; /* Sticky is better for re-use */
+            top: 0;
+            transform: none;
+            z-index: 30; /* Lower than mobile header */
+        }
+    }
+</style>
+
+
+</head>
+<body>
+  <div class="container">
+    <header class="mobile-header">
+    <div class="logo-container">
+        <img src="logo.png" alt="Rise Again Logo" class="logo-img">
+        <h1 class="logo-title">Rise Again</h1>
+    </div>
+    <button id="hamburger-button" class="icon-button">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+</header>
+
+<aside id="sidebar" class="sidebar">
+    <div class="sidebar-top">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <img src="https://placehold.co/100x100/png?text=logo.png" alt="Rise Again Logo" class="logo-img">
+                <h1 class="logo-title">Rise Again</h1>
+            </div>
+            <button id="close-sidebar-button" class="icon-button">
+                <i class="fa-solid fa-times"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <a class="nav-link active" href="dashboard.html"> <i class="fa-solid fa-house"></i>
+                <p>Dashboard</p>
+            </a>
+            <a class="nav-link" href="#">
+                <i class="fa-solid fa-heart-pulse"></i>
+                <p>Healing Hub</p>
+            </a>
+            <a class="nav-link" href="#">
+                <i class="fa-solid fa-users"></i>
+                <p>Anonymous Community</p>
+            </a>
+            <a class="nav-link" href="digiloc.html">
+                <i class="fa-solid fa-lock"></i>
+                <p>Digital Locker</p>
+            </a>
+        </nav>
+    </div>
+    
+    <div class="sidebar-bottom">
+        <a class="nav-link" href="#">
+            <i class="fa-solid fa-gear"></i>
+            <p>Settings</p>
+        </a>
+        <div class="divider"></div>
+        <div class="user-profile">
+            <div class="avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC5YqndIBqsokDK8ko2vdMVUJCtOr1FF5UqHpHuqVZ1Y-WofbIDtOrv2wR1CUCu1tGu8V4L5cpYMZmEIkmpH_ZatKxJMcRooFLMO3QkAwjSCTslkOfwB12s9gVR1HGdaPoQUt8pUnnQ4kLrHOGwrLlcczmbM4sXkjb1kCy78hPRkKIvgYjfsGPVyScJq2aesTxsVgN3vyt3iRZqr-PQkBITKB68EruasC0NhMCK_XdI9DQpws77pkbKLz3hoqwgBopQhy8-xgYnDk");'></div>
+            <div class="user-details">
+                <h1>Amelia</h1>
+                <p>amelia.r@email.com</p>
+            </div>
+        </div>
+    </div>
+</aside>
+
+
+    <main class="content">
+      <div class="header">
+        <div>
+          <h1>Digital Locker</h1>
+          <p>Your private space for sensitive files.</p>
+        </div>
+        <div>
+          <button class="add-btn" id="addFileBtn">+ Add New</button>
+          <button class="add-btn" style="background:#555;margin-left:10px;" onclick="window.location.href='viewdocs.html'">View Docs</button>
+        </div>
+      </div>
+
+      <!-- SIMPLE UPLOAD BOX (no drag & drop) -->
+      <div class="upload-box" id="uploadBox"
+        style="display:none; background:#fff; padding:20px; border-radius:10px; margin-bottom:20px; text-align:center; border:2px dashed #ccc;">
+        <p style="color:#666; margin-bottom:10px;">Choose your file to upload</p>
+        <input type="file" id="fileInput" style="margin-top:10px;" />
+        <button class="add-btn" id="uploadBtn" style="margin-top:10px;">Upload</button>
+        <p id="uploadStatus"></p>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+  const addFileBtn = document.getElementById("addFileBtn");
+  const uploadBox = document.getElementById("uploadBox");
+  const uploadBtn = document.getElementById("uploadBtn");
+  const fileInput = document.getElementById("fileInput");
+  const uploadStatus = document.getElementById("uploadStatus");
+
+  let selectedFile = null;
+
+  addFileBtn.addEventListener("click", () => {
+    uploadBox.style.display = "block";
+  });
+
+  fileInput.addEventListener("change", (e) => {
+    if (e.target.files && e.target.files[0]) {
+      selectedFile = e.target.files[0];
+    }
+  });
+
+  uploadBtn.addEventListener("click", () => {
+    if (!selectedFile) {
+      alert("⚠️ Please choose a file first!");
+      return;
+    }
+
+    const fileData = {
+      name: selectedFile.name,
+      size: (selectedFile.size / (1024 * 1024)).toFixed(2) + " MB",
+      uploadedAt: new Date().toLocaleString(),
+    };
+
+    // Save file info to localStorage
+    let docs = JSON.parse(localStorage.getItem("docs")) || [];
+    docs.push(fileData);
+    localStorage.setItem("docs", JSON.stringify(docs));
+
+    uploadStatus.innerText = "✅ File uploaded successfully!";
+    fileInput.value = "";
+    selectedFile = null;
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+
+        // --- Mobile Sidebar Toggle Logic ---
+        const hamburgerButton = document.getElementById('hamburger-button');
+        const closeSidebarButton = document.getElementById('close-sidebar-button');
+        const sidebar = document.getElementById('sidebar');
+
+        if (hamburgerButton && sidebar) {
+            // Open sidebar when hamburger is clicked
+            hamburgerButton.addEventListener('click', () => {
+                sidebar.classList.add('is-open');
+            });
+        }
+
+        if (closeSidebarButton && sidebar) {
+            // Close sidebar when 'X' button is clicked
+            closeSidebarButton.addEventListener('click', () => {
+                sidebar.classList.remove('is-open');
+            });
+        }
+    });
+
+</script>
+
+</body>
+</html>
