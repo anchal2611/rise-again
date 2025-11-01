@@ -54,7 +54,7 @@
                             
                             <div class="flex flex-col gap-2 text-center md:text-left">
                                 <div class="flex justify-center md:justify-start items-center gap-3">
-                                    <span class="material-symbols-outlined text-primary text-3xl">spa</span>
+                                    <img src="logo.jpg" alt="Rise Again Logo" class="h-8 w-8 rounded-full">
                                     <h1 class="text-xl font-bold font-serif">Rise Again</h1>
                                 </div>
                                 <p class="text-text-primary-light dark:text-text-primary-dark text-3xl font-bold tracking-tight sm:text-4xl">Welcome Back</p>
@@ -95,5 +95,54 @@
             </div>
         </div>
     </div>
+
+    <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+
+  // 🔧 Firebase config (same as yours)
+  const firebaseConfig = {
+    apiKey: "AIzaSyBFITDK4_gch6haF8TQHdt2VL6Wl1j-0ds",
+    authDomain: "riseagain-334f7.firebaseapp.com",
+    projectId: "riseagain-334f7",
+    storageBucket: "riseagain-334f7.appspot.com",
+    messagingSenderId: "608024652359",
+    appId: "1:608024652359:web:8d3211afd24bd0f2815f62",
+    measurementId: "G-FCKHSRLSE5"
+  };
+
+  // ✅ Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // 🎯 Handle login
+  const form = document.querySelector("form");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = form.querySelector('input[placeholder="Enter your email or username"]').value.trim();
+    const password = form.querySelector('input[type="password"]').value.trim();
+
+    if (!email || !password) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    try {
+      // 🔐 Sign in with Firebase
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      console.log("✅ Logged in:", user.email);
+
+      // Optional: Redirect to dashboard/home page
+      alert("Login successful!");
+      window.location.href = "dashboard.html";
+    } catch (error) {
+      console.error("❌ Login error:", error.message);
+      alert("Invalid email or password. Please try again.");
+    }
+  });
+</script>
+
 </body>
 </html>
