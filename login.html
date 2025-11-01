@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Rise Again - Log In</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#e6634c",
+                        "background-light": "#f5f0e6",
+                        "background-dark": "#211411",
+                        "text-primary-light": "#4e403b",
+                        "text-primary-dark": "#e0d9d1",
+                        "text-secondary-light": "#7c6c66",
+                        "text-secondary-dark": "#b0a39d",
+                        "card-light": "#fbf9f8",
+                        "card-dark": "#3a302e",
+                        "border-light": "#EAE3D9",
+                        "border-dark": "#3a2a26"
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"],
+                        "serif": ["Lora", "serif"]
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display">
+    <div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark overflow-x-hidden">
+        <div class="layout-container flex h-full min-h-screen grow flex-col">
+            <div class="flex flex-1 items-stretch">
+                <div class="flex w-full flex-col items-center md:flex-row">
+                    
+                    <div class="relative hidden h-full min-h-screen w-full flex-col items-center justify-center bg-center bg-no-repeat bg-cover md:flex md:w-1/2" style='background-image: url("lsbg.jpg");'>
+                        </div>
+                    
+                    <div class="flex w-full flex-1 flex-col items-center justify-center p-6 sm:p-8 md:w-1/2">
+                        <div class="flex w-full max-w-sm flex-col gap-8">
+                            
+                            <div class="flex flex-col gap-2 text-center md:text-left">
+                                <div class="flex justify-center md:justify-start items-center gap-3">
+                                    <span class="material-symbols-outlined text-primary text-3xl">spa</span>
+                                    <h1 class="text-xl font-bold font-serif">Rise Again</h1>
+                                </div>
+                                <p class="text-text-primary-light dark:text-text-primary-dark text-3xl font-bold tracking-tight sm:text-4xl">Welcome Back</p>
+                                <p class="text-text-secondary-light dark:text-text-secondary-dark text-base font-normal">Log in to access your sanctuary.</p>
+                            </div>
+                            
+                            <form class="flex flex-col gap-5">
+                                <label class="flex flex-col w-full">
+                                    <p class="text-text-primary-light dark:text-text-primary-dark text-base font-medium leading-normal pb-2">Email or Username</p>
+                                    <input class="form-input flex w-full min-w-0 flex-1 rounded-lg text-text-primary-light dark:text-text-primary-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark focus:border-primary/50 h-12 placeholder:text-text-secondary-light dark:placeholder:text-text-secondary-dark p-3 text-base" placeholder="Enter your email or username" value="" />
+                                </label>
+                                <label class="flex flex-col w-full">
+                                    <div class="flex w-full items-center justify-between pb-2">
+                                        <p class="text-text-primary-light dark:text-text-primary-dark text-base font-medium leading-normal">Password</p>
+                                        <a class="text-sm font-medium text-primary hover:underline focus:outline-none" href="#">Forgot Password?</a>
+                                    </div>
+                                    <div class="relative flex w-full flex-1 items-stretch">
+                                        <input class="form-input flex w-full min-w-0 flex-1 rounded-lg text-text-primary-light dark:text-text-primary-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark focus:border-primary/50 h-12 placeholder:text-text-secondary-light dark:placeholder:text-text-secondary-dark p-3 pr-12 text-base" placeholder="Enter your password" type="password" value="" />
+                                        <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-4 text-text-secondary-light dark:text-text-secondary-dark">
+                                            <span class="material-symbols-outlined text-2xl">visibility_off</span>
+                                        </button>
+                                    </div>
+                                </label>
+                            
+                                <div class="flex flex-col gap-4 pt-2">
+                                    <button type="submit" class="flex min-w-[84px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors duration-200">
+                                        <span class="truncate">Log In</span>
+                                    </button>
+                                    <p class="text-center text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                                        Don't have an account?
+                                        <a class="font-bold text-primary hover:underline" href="signup.html">Sign up</a>
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
