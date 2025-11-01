@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rise Again – Dashboard</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#e6634c",
+              "bg-light": "#f5f0e6",
+              "bg-dark": "#2d2624",
+              "card-light": "#fbf9f8",
+              "card-dark": "#3a302e",
+              "text-light": "#4e403b",
+              "text-dark": "#e0d9d1",
+              "muted-light": "#7c6c66",
+              "muted-dark": "#b0a39d",
+              accent: "#d8c7b8",
+            },
+            fontFamily: {
+              display: ["Manrope", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+
+  <body class="font-display bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark min-h-screen flex flex-col lg:flex-row">
+    <aside
+      class="hidden lg:flex flex-col justify-between h-screen w-64 border-r border-accent/40 bg-card-light dark:bg-card-dark p-4 sticky top-0 z-10"
+      aria-label="Sidebar Navigation"
+    >
+      <div>
+        <div class="flex items-center gap-3 mb-8">
+          <span class="material-symbols-outlined text-primary text-3xl">spa</span>
+          <h1 class="text-xl font-extrabold tracking-tight">Rise Again</h1>
+        </div>
+        <nav class="flex flex-col gap-2">
+          <a class="nav-item active" aria-current="page"><span class="material-symbols-outlined">home</span>Dashboard</a>
+          <a class="nav-item"><span class="material-symbols-outlined">spark</span>Healing Hub</a>
+          <a class="nav-item"><span class="material-symbols-outlined">group</span>Anonymous Community</a>
+          <a class="nav-item"><span class="material-symbols-outlined">compass_calibration</span>Guidance Hub</a>
+          <a class="nav-item"><span class="material-symbols-outlined">lock</span>Digital Locker</a>
+          <a class="nav-item"><span class="material-symbols-outlined">smart_toy</span>AI Chatbot Ally</a>
+        </nav>
+      </div>
+
+      <div class="mt-8 border-t border-accent/40 pt-4 flex flex-col gap-2">
+        <button id="themeToggle" class="nav-item justify-start" aria-label="Toggle Dark/Light Theme">
+          <span class="material-symbols-outlined">dark_mode</span><span id="themeText">Dark Mode</span>
+        </button>
+        <a class="nav-item"><span class="material-symbols-outlined">settings</span>Settings</a>
+      </div>
+    </aside>
+
+    <nav
+      class="lg:hidden fixed bottom-0 left-0 right-0 bg-card-light dark:bg-card-dark border-t border-accent/30 flex justify-around py-2 z-20"
+      aria-label="Mobile Navigation"
+    >
+      <button class="nav-btn active" aria-label="Dashboard"><span class="material-symbols-outlined">home</span></button>
+      <button class="nav-btn" aria-label="Healing Hub"><span class="material-symbols-outlined">spark</span></button>
+      <button class="nav-btn" aria-label="Community"><span class="material-symbols-outlined">group</span></button>
+      <button class="nav-btn" aria-label="Guidance Hub"><span class="material-symbols-outlined">compass_calibration</span></button>
+      <button class="nav-btn" aria-label="AI Chatbot Ally"><span class="material-symbols-outlined">smart_toy</span></button>
+    </nav>
+
+    <div class="flex-grow">
+        <main class="lg:ml-0 px-4 md:px-8 py-8 lg:py-12 max-w-6xl mx-auto w-full">
+            <header class="mb-10 flex items-center justify-between">
+                <h1 class="text-3xl md:text-4xl font-extrabold flex-grow text-center lg:text-left">
+                    Hello, <span id="userName">...</span> <span role="img" aria-label="Flower emoji">🌼</span>
+                </h1>
+                <button id="themeToggleMobile" class="lg:hidden p-2 rounded-full hover:bg-accent/30 transition-colors" aria-label="Toggle Dark/Light Theme">
+                    <span class="material-symbols-outlined text-2xl">dark_mode</span>
+                </button>
+            </header>
+
+            <p class="text-muted-light dark:text-muted-dark mt-2 text-center lg:text-left max-w-3xl mx-auto lg:mx-0 mb-8">
+                You’re safe here. Take a moment to breathe and begin your healing journey.
+            </p>
+
+            <section
+                class="bg-card-light dark:bg-card-dark border border-accent/60 p-6 md:p-8 rounded-2xl shadow-xl mb-12 max-w-2xl mx-auto"
+                aria-labelledby="affirmationHeading"
+            >
+                <h2 id="affirmationHeading" class="text-primary text-sm font-extrabold uppercase tracking-widest mb-3 text-center">
+                    Daily Compass
+                </h2>
+                <blockquote
+                  id="affirmationText"
+                  class="text-xl md:text-2xl italic font-medium text-center text-text-light dark:text-text-dark"
+                  aria-live="polite"
+                >
+                    “Loading affirmation...”
+                </blockquote>
+            </section>
+
+            <section class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <a href="#" class="card group">
+                    <div
+                        class="aspect-video bg-cover rounded-lg overflow-hidden transition-transform duration-300 group-hover:scale-[1.02]"
+                        style="background-image: url('https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=800&q=60')"
+                        aria-label="Image of a person meditating in nature"
+                    ></div>
+                    <h3 class="font-bold mt-4 text-lg">Healing Hub ✨</h3>
+                    <p class="text-sm text-muted-light dark:text-muted-dark mt-1">Explore mindfulness and self-help exercises.</p>
+                </a>
+                <a href="#" class="card group">
+                    <div
+                        class="aspect-video bg-cover rounded-lg overflow-hidden transition-transform duration-300 group-hover:scale-[1.02]"
+                        style="background-image: url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=60')"
+                        aria-label="Image of people holding hands in a circle"
+                    ></div>
+                    <h3 class="font-bold mt-4 text-lg">Anonymous Community 🤝</h3>
+                    <p class="text-sm text-muted-light dark:text-muted-dark mt-1">Connect with others on similar journeys securely.</p>
+                </a>
+                <a href="#" class="card group">
+                    <div
+                        class="aspect-video bg-cover rounded-lg overflow-hidden transition-transform duration-300 group-hover:scale-[1.02]"
+                        style="background-image: url('https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=800&q=60')"
+                        aria-label="Image of an open book with light shining on it"
+                    ></div>
+                    <h3 class="font-bold mt-4 text-lg">Guidance Hub 🧭</h3>
+                    <p class="text-sm text-muted-light dark:text-muted-dark mt-1">Know your rights and safety measures.</p>
+                </a>
+            </section>
+
+            <footer class="mt-20 pt-6 border-t border-accent/30 text-center text-sm text-muted-light dark:text-muted-dark">
+                <p>Healing is a process, not a destination. You're doing great. 💖</p>
+                <p class="mt-1">© 2025 Rise Again. All rights reserved.</p>
+            </footer>
+        </main>
+    </div>
+
+    <button
+      class="fixed bottom-20 right-6 lg:bottom-6 bg-primary rounded-full h-16 w-16 flex items-center justify-center shadow-2xl hover:scale-105 transition-all duration-300 ease-out z-30 transform hover:rotate-6"
+      aria-label="Open AI Chatbot Ally"
+    >
+      <span class="material-symbols-outlined text-white text-3xl">smart_toy</span>
+    </button>
+
+    <script type="module" src="dashboard.js"></script>
+  </body>
+</html>

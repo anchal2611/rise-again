@@ -1,0 +1,33 @@
+/* ====== Rise Again Dashboard Styles ====== */
+
+.nav-item {
+  @apply flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium cursor-pointer text-text-light dark:text-text-dark transition-colors;
+}
+
+.nav-item:hover, .nav-item:focus {
+    @apply bg-accent/30;
+}
+
+.nav-item.active {
+  @apply bg-primary/20 text-primary font-bold dark:bg-primary/10;
+}
+
+.nav-btn {
+  @apply flex flex-col items-center justify-center text-xs font-medium px-2 py-1 rounded-lg text-muted-light dark:text-muted-dark transition-colors;
+}
+
+.nav-btn:hover, .nav-btn:focus, .nav-btn.active {
+    @apply text-primary font-bold;
+}
+
+/* Apply card styles to the anchor tag for better accessibility */
+.card {
+  @apply block bg-card-light dark:bg-card-dark p-5 rounded-2xl border border-transparent hover:border-accent/80 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-primary/50;
+}
+
+/* Responsive fixes */
+@media (max-width: 1024px) { /* Adjusting for mobile bottom nav */
+  main {
+    padding-bottom: 7rem; /* Ensure space for the fixed bottom nav */
+  }
+}
