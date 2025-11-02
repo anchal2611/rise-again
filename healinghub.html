@@ -1,185 +1,454 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="light" lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Healing Hub</title>
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Healing & Guidance Hub</title>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <script src="https://kit.fontawesome.com/4ca844b3a8.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
-  <!-- Font Awesome Icons -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-  />
-
-  <!-- Tailwind Config -->
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: "#A16207",
-            background: {
-              light: "#F9FAFB",
-              dark: "#0D0D0D",
+    
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#e6634c",
+                        "background-light": "#f5f0e6",
+                        "background-dark": "#211411",
+                        "text-primary-light": "#4e403b",
+                        "text-primary-dark": "#e0d9d1",
+                        "text-secondary-light": "#7c6c66",
+                        "text-secondary-dark": "#b0a39d",
+                        "card-light": "#fbf9f8",
+                        "card-dark": "#3a302e",
+                        "border-light": "#EAE3D9",
+                        "border-dark": "#3a2a26",
+                        
+                        "accent-active-text-light": "#ffffff",
+                        "accent-active-text-dark": "#e0d9d1"
+                    },
+                    fontFamily: { 
+                        "display": ["Manrope", "sans-serif"], 
+                        "serif": ["Lora", "serif"],
+                        "body": ["Lato", "sans-serif"]
+                    },
+                },
             },
-            card: {
-              light: "#FFFFFF",
-              dark: "#1C1C1C",
-            },
-            border: {
-              light: "#E5E7EB",
-              dark: "#2E2E2E",
-            },
-            text: {
-              primary: {
-                light: "#111827",
-                dark: "#F9FAFB",
-              },
-              secondary: {
-                light: "#6B7280",
-                dark: "#9CA3AF",
-              },
-            },
-          },
-        },
-      },
-      darkMode: "media",
-    };
-  </script>
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        body {
+            @apply font-display bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark;
+        }
+        /* 2. ADDED: Material Symbols CSS Style */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .hub-tab.active {
+            @apply border-primary text-primary;
+        }
+    </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark">
+<body class="min-h-screen">
 
-  <!-- === Navbar & Sidebar === -->
-
-  <!-- Mobile Header -->
-  <header class="md:hidden fixed top-0 left-0 right-0 z-40 flex items-center justify-between bg-card-light dark:bg-card-dark border-b border-border-light dark:border-border-dark px-4 py-3">
-    <div class="flex items-center gap-2">
-      <img src="logo.jpg" alt="Rise Again Logo" class="h-8 w-8">
-      <h1 class="text-lg font-serif font-bold text-text-primary-light dark:text-text-primary-dark">Rise Again</h1>
+<header class="md:hidden flex items-center justify-between px-4 py-3 bg-card-light dark:bg-card-dark border-b border-border-light dark:border-border-dark fixed top-0 left-0 right-0 z-40">
+    <div class="flex items-center gap-3">
+        <img src="logo.jpg" alt="Rise Again Logo" class="h-8 w-8">
+        <h1 class="text-text-primary-light dark:text-text-primary-dark text-xl font-bold font-serif">Rise Again</h1>
     </div>
-    <button id="hamburger-button" class="text-text-primary-light dark:text-text-primary-dark text-2xl">
-      <i class="fa-solid fa-bars"></i>
+    <button id="hamburger-button" class="text-text-primary-light dark:text-text-primary-dark">
+        <i class="fa-solid fa-bars text-2xl"></i>
     </button>
-  </header>
+</header>
 
-  <!-- Sidebar -->
-  <aside id="sidebar" class="fixed top-0 left-0 z-50 h-screen w-64 transform -translate-x-full md:translate-x-0 bg-card-light dark:bg-card-dark border-r border-border-light dark:border-border-dark transition-transform duration-300 ease-in-out flex flex-col justify-between">
-    <div>
-      <div class="flex items-center justify-between px-4 py-4 border-b border-border-light dark:border-border-dark">
-        <div class="flex items-center gap-2">
-          <img src="logo.jpg" alt="Rise Again Logo" class="h-8 w-8">
-          <h1 class="text-lg font-serif font-bold text-text-primary-light dark:text-text-primary-dark">Rise Again</h1>
+<div class="relative flex min-h-screen w-full">
+    <aside id="sidebar" class="font-body fixed inset-y-0 left-0 z-50 flex h-screen w-64 flex-col justify-between border-r border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-4 transform -translate-x-full transition-transform duration-300 ease-in-out md:sticky md:top-0 md:transform-none md:z-30">
+        <div class="flex flex-col gap-8">
+            <div class="flex items-center justify-between md:justify-start gap-3 px-3">
+                <div class="flex items-center gap-3">
+                    <img src="logo.jpg" alt="Rise Again Logo" class="h-8 w-8">
+                    <h1 class="text-text-primary-light dark:text-text-primary-dark text-xl font-bold font-serif">Rise Again</h1>
+                </div>
+                <button id="close-sidebar-button" class="md:hidden text-text-primary-light dark:text-text-primary-dark">
+                    <i class="fa-solid fa-times text-2xl"></i>
+                </button>
+            </div>
+            <nav class="flex flex-col gap-2">
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-background-light dark:hover:bg-border-dark transition-colors" href="#">
+                    <i class="fa-solid fa-house text-text-secondary-light dark:text-text-secondary-dark"></i>
+                    <p class="text-text-primary-light dark:text-text-primary-dark text-sm font-medium leading-normal">Dashboard</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-accent-active-text-light dark:text-accent-active-text-dark" href="#">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                    <p class="text-sm font-medium leading-normal">Healing Hub</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-background-light dark:hover:bg-border-dark transition-colors" href="#">
+                    <i class="fa-solid fa-users text-text-secondary-light dark:text-text-secondary-dark"></i>
+                    <p class="text-text-primary-light dark:text-text-primary-dark text-sm font-medium leading-normal">Anonymous Community</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-background-light dark:hover:bg-border-dark transition-colors" href="#">
+                    <i class="fa-solid fa-lock text-text-secondary-light dark:text-text-secondary-dark"></i>
+                    <p class="text-text-primary-light dark:text-text-primary-dark text-sm font-medium leading-normal">Digital Locker</p>
+                </a>
+            </nav>
         </div>
-        <button id="close-sidebar-button" class="text-xl text-text-primary-light dark:text-text-primary-dark md:hidden">
-          <i class="fa-solid fa-times"></i>
-        </button>
-      </div>
-
-      <nav class="mt-6 flex flex-col space-y-2 px-4">
-        <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/10 text-sm font-medium text-text-primary-light dark:text-text-primary-dark">
-          <i class="fa-solid fa-house"></i> Dashboard
-        </a>
-        <a href="healinghub.html" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white font-medium">
-          <i class="fa-solid fa-heart-pulse"></i> Healing Hub
-        </a>
-        <a href="anonymous_community.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/10 text-sm font-medium text-text-primary-light dark:text-text-primary-dark">
-          <i class="fa-solid fa-users"></i> Anonymous Community
-        </a>
-        <a href="digiloc.html" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/10 text-sm font-medium text-text-primary-light dark:text-text-primary-dark">
-          <i class="fa-solid fa-lock"></i> Digital Locker
-        </a>
-      </nav>
-    </div>
-
-    <div class="mt-auto border-t border-border-light dark:border-border-dark px-4 py-4">
-      <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary/10 text-sm font-medium text-text-primary-light dark:text-text-primary-dark">
-        <i class="fa-solid fa-gear"></i> Settings
-      </a>
-
-      <div class="flex items-center gap-3 mt-4">
-        <div class="w-10 h-10 rounded-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC5YqndIBqsokDK8ko2vdMVUJCtOr1FF5UqHpHuqVZ1Y-WofbIDtOrv2wR1CUCu1tGu8V4L5cpYMZmEIkmpH__ZatKxJMcRooFLMO3QkAwjSCTslkOfwB12s9gVR1HGdaPoQUt8pUnnQ4kLrHOGwrLlcczmbM4sXkjb1kCy78hPRkKIvgYjfsGPVyScJq2aesTxsVgN3vyt3iRZqr-PQkBITKB68EruasC0NhMCK_XdI9DQpws77pkbKLz3hoqwgBopQhy8_-xgYnDk');"></div>
-        <div>
-          <h1 class="text-base font-medium text-text-primary-light dark:text-text-primary-dark">Amelia</h1>
-          <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">amelia.r@email.com</p>
+        <div class="flex flex-col gap-2">
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-background-light dark:hover:bg-border-dark transition-colors" href="#">
+                <i class="fa-solid fa-gear text-text-secondary-light dark:text-text-secondary-dark"></i>
+                <p class="text-text-primary-light dark:text-text-primary-dark text-sm font-medium leading-normal">Settings</p>
+            </a>
+            <div class="border-t border-border-light dark:border-border-dark my-2"></div>
+            <div class="flex items-center gap-3 px-3 py-2">
+                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC5YqndIBqsokDK8ko2vdMVUJCtOr1FF5UqHpHuqVZ1Y-WofbIDtOrv2wR1CUCu1tGu8V4L5cpYMZmEIkmpH__ZatKxJMcRooFLMO3QkAwjSCTslkOfwB12s9gVR1HGdaPoQUt8pUnnQ4kLrHOGwrLlcczmbM4sXkjb1kCy78hPRkKIvgYjfsGPVyScJq2aesTxsVgN3vyt3iRZqr-PQkBITKB68EruasC0NhMCK_XdI9DQpws77pkbKLz3hoqwgBopQhy8_-xgYnDk");'></div>
+                <div class="flex flex-col">
+                    <h1 class="text-text-primary-light dark:text-text-primary-dark text-base font-medium leading-normal">Amelia</h1>
+                    <p class="text-text-secondary-light dark:text-text-secondary-dark text-sm font-normal leading-normal">amelia.r@email.com</p>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </aside>
+    </aside>
+    <main class="flex-1 overflow-y-auto pt-16 md:pt-0">
+        
+        <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+            
+            <header class="mb-8">
+                <h1 class="text-3xl font-bold font-serif tracking-tight text-text-primary-light dark:text-text-primary-dark">Healing & Guidance Overview</h1>
+                <p class="mt-1 text-lg text-text-secondary-light dark:text-text-secondary-dark">A safe space to find stories of resilience and supportive resources.</p>
+            </header>
+            
+            <div class="mb-8 border-b border-border-light dark:border-border-dark">
+                <div class="flex space-x-8">
+                    <button id="tab-healing-hub" class="hub-tab active group flex items-center whitespace-nowrap border-b-2 border-transparent py-4 text-sm font-medium" data-tab="healing-hub">
+                        Healing Hub
+                    </button>
+                    <button id="tab-guidance-hub" class="hub-tab group flex items-center whitespace-nowrap border-b-2 border-transparent py-4 text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark" data-tab="guidance-hub">
+                        Guidance Hub
+                    </button>
+                </div>
+            </div>
 
-  <!-- Sidebar Toggle Script -->
-  <script>
+            <div class="mb-6 md:hidden">
+                <button id="mobile-filter-toggle" class="flex w-full items-center justify-between rounded-lg border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark px-4 py-3 text-base font-medium">
+                    <span>Show Filters</span>
+                    <span class="material-symbols-outlined">filter_list</span>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 gap-12 md:grid-cols-4">
+                
+                <div id="filter-dropdown" class="hidden md:block md:col-span-1">
+                    <aside>
+                        <div class="mb-6">
+                            <div class="relative">
+                                <input type="search" id="search-input" placeholder="Search stories..." class="w-full rounded-lg border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark py-3 pl-10 pr-4 text-sm focus:border-primary focus:ring-primary">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary-light dark:text-text-secondary-dark"><i class="fa-solid fa-search"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-6 border-b border-border-light dark:border-border-dark pb-6">
+                            <button class="flex w-full items-center justify-between py-2 accordion-toggle">
+                                <span class="text-base font-semibold">Filter by Type of Violence</span>
+                                <span class="material-symbols-outlined accordion-icon">expand_more</span>
+                            </button>
+                            <div class="space-y-3 pt-4 accordion-content hidden"> <label class="flex items-center space-x-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 rounded text-primary focus:ring-primary filter-checkbox" data-group="violence" value="cultural">
+                                    <span class="text-sm">Cultural Violence</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 rounded text-primary focus:ring-primary filter-checkbox" data-group="violence" value="sexual">
+                                    <span class="text-sm">Sexual Violence</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 rounded text-primary focus:ring-primary filter-checkbox" data-group="violence" value="acid">
+                                    <span class="text-sm">Acid Attack</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 rounded text-primary focus:ring-primary filter-checkbox" data-group="violence" value="domestic">
+                                    <span class="text-sm">Domestic Violence</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 rounded text-primary focus:ring-primary filter-checkbox" data-group="violence" value="harassment">
+                                    <span class="text-sm">Harassment</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 rounded text-primary focus:ring-primary filter-checkbox" data-group="violence" value="child-abuse">
+                                    <span class="text-sm">Child Abuse</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-6 border-b border-border-light dark:border-border-dark pb-6">
+                            <button class="flex w-full items-center justify-between py-2 accordion-toggle">
+                                <span class="text-base font-semibold">Content Type</span>
+                                <span class="material-symbols-outlined accordion-icon">expand_more</span>
+                            </button>
+                            <div class="space-y-3 pt-4 accordion-content hidden"> <label class="flex items-center space-x-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 rounded text-primary focus:ring-primary filter-checkbox" data-group="content" value="story">
+                                    <span class="text-sm">Personal Story</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 rounded text-primary focus:ring-primary filter-checkbox" data-group="content" value="expert-article">
+                                    <span class="text-sm">Expert Article</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 rounded text-primary focus:ring-primary filter-checkbox" data-group="content" value="community-post">
+                                    <span class="text-sm">Community Post</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 rounded text-primary focus:ring-primary filter-checkbox" data-group="content" value="legal">
+                                    <span class="text-sm">Legal Guide</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 rounded text-primary focus:ring-primary filter-checkbox" data-group="content" value="medical">
+                                    <span class="text-sm">Medical Guide</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 rounded text-primary focus:ring-primary filter-checkbox" data-group="content" value="ngo-link">
+                                    <span class="text-sm">NGO Directory</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" class="form-checkbox h-5 w-5 rounded text-primary focus:ring-primary filter-checkbox" data-group="content" value="exercise">
+                                    <span class="text-sm">Coping Exercise</span>
+                                </label>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+
+                <main id="article-grid" class="grid grid-cols-1 gap-8 md:col-span-3 lg:grid-cols-2">
+                    
+                    <div class="article-card rounded-xl bg-card-light dark:bg-card-dark p-8 shadow-sm border border-border-light dark:border-border-dark" 
+                         data-tags="healing-hub story sexual harassment violence reclaiming agency survivor stories empowerment">
+                        <p class="mb-2 text-sm font-semibold uppercase tracking-wide text-primary">Multiple Survivor Stories</p>
+                        <h3 class="mb-3 text-xl font-bold font-serif text-text-primary-light dark:text-text-primary-dark">"From Victim to Survivor: Overcoming Sexual Abuse"</h3>
+                        <p class="mb-4 text-base text-text-secondary-light dark:text-text-secondary-dark">Five first-person stories of sexual abuse survivors reclaiming autonomy and agency, with direct quotes...</p>
+                        <a href="https://girlpowertalk.com/from-victim-to-survivor-stories-on-overcoming-sexual-abuse/" class="text-sm font-bold text-primary hover:underline" target="_blank" rel="noopener noreferrer">Read More →</a>                </div>
+
+                    <div class="article-card rounded-xl bg-card-light dark:bg-card-dark p-8 shadow-sm border border-border-light dark:border-border-dark" 
+                         data-tags="healing-hub story sexual harassment violence sexual violence activism leadership inspiration">
+                        <p class="mb-2 text-sm font-semibold uppercase tracking-wide text-primary">Profile/Interview Series</p>
+                        <h3 class="mb-3 text-xl font-bold font-serif text-text-primary-light dark:text-text-primary-dark">"5 Amazing Women Who Have Shunned The Tag Of 'Rape Victim'"</h3>
+                        <p class="mb-4 text-base text-text-secondary-light dark:text-text-secondary-dark">Women who survived rape and turned into leaders, activists, and symbols of hope; profiles and impactful stories...</p>
+                        <a href="https://thebetterindia.com/17191/women-rape-victims-survivors-emerged-winners-respect-inspiring/" class="text-sm font-bold text-primary hover:underline" target="_blank" rel="noopener noreferrer">Read More →</a>
+                    </div>
+
+                    <div class="article-card rounded-xl bg-card-light dark:bg-card-dark p-8 shadow-sm border border-border-light dark:border-border-dark" 
+                         data-tags="healing-hub story sexual harassment violence workplace harassment legal change icon">
+                        <p class="mb-2 text-sm font-semibold uppercase tracking-wide text-primary">Historical Case Study</p>
+                        <h3 class="mb-3 text-xl font-bold font-serif text-text-primary-light dark:text-text-primary-dark">"Bhanwari Devi: The rape that led to India's sexual harassment law"</h3>
+                        <p class="mb-4 text-base text-text-secondary-light dark:text-text-secondary-dark">Iconic case of Bhanwari Devi, whose courage led to changes in India's workplace laws...</p>
+                        <a href="https://www.bbc.co.uk/news/world-asia-india-39265653" class="text-sm font-bold text-primary hover:underline" target="_blank" rel="noopener noreferrer">Read More →</a>
+                    </div>
+
+                    <div class="article-card rounded-xl bg-card-light dark:bg-card-dark p-8 shadow-sm border border-border-light dark:border-border-dark" 
+                         data-tags="healing-hub story sexual harassment violence justice minor protection legal victory">
+                        <p class="mb-2 text-sm font-semibold uppercase tracking-wide text-primary">Documentary/Case Archive</p>
+                        <h3 class="mb-3 text-xl font-bold font-serif text-text-primary-light dark:text-text-primary-dark">"Minor Rape Survivor Finds Justice in the Face of Adversity (Satyarthi Foundation)"</h3>
+                        <p class="mb-4 text-base text-text-secondary-light dark:text-text-secondary-dark">Chronicles the story of a minor's courage, legal battle, and victory over trauma...</p>
+                        <a href="https://satyarthi.org.in/stories/" class="text-sm font-bold text-primary hover:underline" target="_blank" rel="noopener noreferrer">Read More →</a>
+                    </div>
+
+                    <div class="article-card rounded-xl bg-card-light dark:bg-card-dark p-8 shadow-sm border border-border-light dark:border-border-dark" 
+                         data-tags="healing-hub story cultural violence domestic abuse independence family trauma">
+                        <p class="mb-2 text-sm font-semibold uppercase tracking-wide text-primary">Feature Article</p>
+                        <h3 class="mb-3 text-xl font-bold font-serif text-text-primary-light dark:text-text-primary-dark">"Better days: Three women reclaim life after domestic abuse"</h3>
+                        <p class="mb-4 text-base text-text-secondary-light dark:text-text-secondary-dark">Accounts of women overcoming violent family systems (forced silence, stigma) and regaining independence...</p>
+                        <a href="https://yourstory.com/socialstory/2024/10/women-reclaim-life-after-domestic-violence-abuse-hope" class="text-sm font-bold text-primary hover:underline" target="_blank" rel="noopener noreferrer">Read More →</a>
+                    </div>
+
+                    <div class="article-card rounded-xl bg-card-light dark:bg-card-dark p-8 shadow-sm border border-border-light dark:border-border-dark" 
+                         data-tags="healing-hub story cultural violence taboo breaking diaspora reconstruction">
+                        <p class="mb-2 text-sm font-semibold uppercase tracking-wide text-primary">Interview/Storytelling Project</p>
+                        <h3 class="mb-3 text-xl font-bold font-serif text-text-primary-light dark:text-text-primary-dark">"Domestic Violence Survivors Speak Up (Sakhi)"</h3>
+                        <p class="mb-4 text-base text-text-secondary-light dark:text-text-secondary-dark">Narratives of Indian women in diaspora breaking cultural taboos and reconstructing life after abuse...</p>
+                        <a href="https://www.khabar.com/magazine/features/empowerment-project-storytelling-with-sakhi_0" class="text-sm font-bold text-primary hover:underline" target="_blank" rel="noopener noreferrer">Read More →</a>
+                    </div>
+
+                    <div class="article-card rounded-xl bg-card-light dark:bg-card-dark p-8 shadow-sm border border-border-light dark:border-border-dark" 
+                         data-tags="healing-hub story cultural violence tradition breaking abuse recovery support">
+                        <p class="mb-2 text-sm font-semibold uppercase tracking-wide text-primary">NGO Archive</p>
+                        <h3 class="mb-3 text-xl font-bold font-serif text-text-primary-light dark:text-text-primary-dark">"Domestic Violence Survivors - Maitri India"</h3>
+                        <p class="mb-4 text-base text-text-secondary-light dark:text-text-secondary-dark">Summaries and excerpts of women leaving abusive environments, standing up against tradition and expectation...</p>
+                        <a href="https://www.maitriindia.org/in-their-words/domestic-violence-survivors/" class="text-sm font-bold text-primary hover:underline" target="_blank" rel="noopener noreferrer">Read More →</a>
+                    </div>
+
+                    <div class="article-card rounded-xl bg-card-light dark:bg-card-dark p-8 shadow-sm border border-border-light dark:border-border-dark" 
+                         data-tags="healing-hub story acid attack resilience leadership inspiration multiple profiles">
+                        <p class="mb-2 text-sm font-semibold uppercase tracking-wide text-primary">Multiple Survivor Profiles</p>
+                        <h3 class="mb-3 text-xl font-bold font-serif text-text-primary-light dark:text-text-primary-dark">"Ten Inspiring Acid Attack Survivors Who Rewrote Their Destiny"</h3>
+                        <p class="mb-4 text-base text-text-secondary-light dark:text-text-secondary-dark">Multiple stories of women, including Shaheen Malik and Rupa, who found meaning and leadership after surviving attacks...</p>
+                        <a href="https://hindupost.in/featured/ten-inspiring-acid-attack-survivors-who-rewrote-their-destiny/" class="text-sm font-bold text-primary hover:underline" target="_blank" rel="noopener noreferrer">Read More →</a>
+                    </div>
+
+                    <div class="article-card rounded-xl bg-card-light dark:bg-card-dark p-8 shadow-sm border border-border-light dark:border-border-dark" 
+                         data-tags="guidance-hub guidance legal fir filing">
+                        <p class="mb-2 text-sm font-semibold uppercase tracking-wide text-primary">Guide</p>
+                        <h3 class="mb-3 text-xl font-bold font-serif text-text-primary-light dark:text-text-primary-dark">"FIR Filing for Assault in India"</h3>
+                        <p class="mb-4 text-base text-text-secondary-light dark:text-text-secondary-dark">Step-by-step FIR guidance, real case details and how lawyers help survivors in filing an FIR for violence or assault...</p>
+                        <a href="https://www.zolvit.com/blog/case-study/fir-filing-for-assault/" class="text-sm font-bold text-primary hover:underline" target="_blank" rel="noopener noreferrer">Read More →</a>
+                    </div>
+
+                    <div class="article-card rounded-xl bg-card-light dark:bg-card-dark p-8 shadow-sm border border-border-light dark:border-border-dark" 
+                         data-tags="guidance-hub guidance therapy medical">
+                        <p class="mb-2 text-sm font-semibold uppercase tracking-wide text-primary">Therapy Guide</p>
+                        <h3 class="mb-3 text-xl font-bold font-serif text-text-primary-light dark:text-text-primary-dark">"Best Trauma Informed / Focused Therapy in India"</h3>
+                        <p class="mb-4 text-base text-text-secondary-light dark:text-text-secondary-dark">Resource page with guidance and listings for trauma-focused therapists and centers across India...</p>
+                        <a href="https://www.centerformentalhealth.in/tag/trauma-informed-focused-therapy-in-india/" class="text-sm font-bold text-primary hover:underline" target="_blank" rel="noopener noreferrer">Read More →</a>
+                    </div>
+
+                    <div class="article-card rounded-xl bg-card-light dark:bg-card-dark p-8 shadow-sm border border-border-light dark:border-border-dark" 
+                         data-tags="guidance-hub guidance medical ngo acid">
+                        <p class="mb-2 text-sm font-semibold uppercase tracking-wide text-primary">Organization</p>
+                        <h3 class="mb-3 text-xl font-bold font-serif text-text-primary-light dark:text-text-primary-dark">"Acid survivors saahas foundation"</h3>
+                        <p class="mb-4 text-base text-text-secondary-light dark:text-text-secondary-dark">Saahas foundation offers medical, psychological, and legal support for acid attack survivors; also runs dedicated centers...</p>
+                        <a href="https://www.assfindia.org/" class="text-sm font-bold text-primary hover:underline" target="_blank" rel="noopener noreferrer">Read More →</a>
+                    </div>
+
+
+
+                </main>
+            </div>
+        </div>
+        </main>
+</div>
+
+    <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const hamburgerButton = document.getElementById('hamburger-button');
-      const closeSidebarButton = document.getElementById('close-sidebar-button');
-      const sidebar = document.getElementById('sidebar');
+        
+        // --- 1. Navbar Toggle Logic ---
+        const hamburgerButton = document.getElementById('hamburger-button');
+        const closeSidebarButton = document.getElementById('close-sidebar-button');
+        const sidebar = document.getElementById('sidebar');
 
-      if (hamburgerButton) {
-        hamburgerButton.addEventListener('click', () => {
-          sidebar.classList.remove('-translate-x-full');
-        });
-      }
+        if (hamburgerButton && sidebar) {
+            hamburgerButton.addEventListener('click', () => {
+                sidebar.classList.remove('-translate-x-full');
+                sidebar.classList.add('transform-none');
+            });
+        }
 
-      if (closeSidebarButton) {
-        closeSidebarButton.addEventListener('click', () => {
-          sidebar.classList.add('-translate-x-full');
+        if (closeSidebarButton && sidebar) {
+            closeSidebarButton.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                sidebar.classList.remove('transform-none');
+            });
+        }
+
+        // --- 2. Accordion / Filter Toggle Logic ---
+        const accordionToggles = document.querySelectorAll('.accordion-toggle');
+
+        accordionToggles.forEach(toggle => {
+            const initialContent = toggle.nextElementSibling;
+            const initialIcon = toggle.querySelector('.accordion-icon');
+            if (initialContent.classList.contains('hidden')) {
+                initialIcon.textContent = 'expand_more';
+            } else {
+                initialIcon.textContent = 'expand_less';
+            }
+
+            toggle.addEventListener('click', () => {
+                const content = toggle.nextElementSibling;
+                const icon = toggle.querySelector('.accordion-icon'); 
+
+                content.classList.toggle('hidden');
+                
+                if (content.classList.contains('hidden')) {
+                    icon.textContent = 'expand_more';
+                } else {
+                    icon.textContent = 'expand_less';
+                }
+            });
         });
-      }
+
+        // --- 3. Mobile Filter Toggle Logic ---
+        const mobileFilterToggle = document.getElementById('mobile-filter-toggle');
+        const filterDropdown = document.getElementById('filter-dropdown');
+
+        if (mobileFilterToggle && filterDropdown) {
+            mobileFilterToggle.addEventListener('click', () => {
+                filterDropdown.classList.toggle('hidden');
+                const icon = mobileFilterToggle.querySelector('.material-symbols-outlined');
+                
+                if (filterDropdown.classList.contains('hidden')) {
+                    icon.textContent = 'filter_list';
+                } else {
+                    icon.textContent = 'close';
+                }
+            });
+        }
+
+        // --- 4. Tab Switching Logic ---
+        const tabButtons = document.querySelectorAll('.hub-tab');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active', 'border-primary', 'text-primary');
+                    btn.classList.add('text-text-secondary-light', 'dark:text-text-secondary-dark');
+                });
+                button.classList.add('active', 'border-primary', 'text-primary');
+                button.classList.remove('text-text-secondary-light', 'dark:text-text-secondary-dark');
+                filterArticles(); 
+            });
+        });
+
+        // --- 5. Filter Logic ---
+        const searchInput = document.getElementById('search-input');
+        const filterCheckboxes = document.querySelectorAll('.filter-checkbox');
+
+        if (searchInput) {
+            searchInput.addEventListener('input', filterArticles);
+        }
+        filterCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', filterArticles);
+        });
+
+        function filterArticles() {
+            const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+            const activeTab = document.querySelector('.hub-tab.active');
+            const activeHub = activeTab ? activeTab.dataset.tab : 'healing-hub';
+
+            const selectedViolenceFilters = Array.from(document.querySelectorAll('.filter-checkbox[data-group="violence"]:checked'))
+                .map(checkbox => checkbox.value);
+            
+            const selectedContentTypes = Array.from(document.querySelectorAll('.filter-checkbox[data-group="content"]:checked'))
+                .map(checkbox => checkbox.value);
+
+            // 'noResultsMessage' aur 'articlesFound' se related code hata diya gaya hai
+            
+            document.querySelectorAll('.article-card').forEach(card => {
+                const tags = card.dataset.tags ? card.dataset.tags.toLowerCase().split(' ') : [];
+                const cardTitle = card.querySelector('h3').textContent.toLowerCase();
+                const cardDescription = card.querySelector('p:nth-of-type(2)').textContent.toLowerCase();
+
+                const matchesSearch = searchTerm === '' || cardTitle.includes(searchTerm) || cardDescription.includes(searchTerm) || tags.some(tag => tag.includes(searchTerm));
+                const matchesTab = tags.includes(activeHub);
+                const matchesViolenceFilter = selectedViolenceFilters.length === 0 || selectedViolenceFilters.some(filter => tags.includes(filter));
+                const matchesContentType = selectedContentTypes.length === 0 || selectedContentTypes.some(filter => tags.includes(filter));
+
+                if (matchesSearch && matchesTab && matchesViolenceFilter && matchesContentType) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            // 'noResultsMessage' ko toggle karne wala code yahaan se hata diya gaya hai
+        }
+        // Initial filter on page load
+        filterArticles();
     });
-  </script>
-
-  <!-- === Main Healing Hub Content === -->
-  <main class="md:ml-64 px-4 sm:px-6 lg:px-8 pt-20 md:pt-10">
-    <section class="max-w-7xl mx-auto">
-      <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <h2 class="text-2xl font-bold">Healing Hub</h2>
-
-        <div class="flex flex-wrap gap-3">
-          <select class="border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark px-3 py-2 rounded-lg text-sm">
-            <option>All Activities</option>
-            <option>Therapy</option>
-            <option>Yoga</option>
-            <option>Meditation</option>
-          </select>
-
-          <select class="border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark px-3 py-2 rounded-lg text-sm">
-            <option>Sort by: Popular</option>
-            <option>Newest</option>
-            <option>Oldest</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Cards Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Card 1 -->
-        <div class="bg-card-light dark:bg-card-dark rounded-2xl shadow-md p-5 border border-border-light dark:border-border-dark hover:shadow-lg transition">
-          <img src="https://placehold.co/600x400/png?text=Mindfulness+Workshop" alt="Workshop" class="rounded-xl mb-4 w-full h-40 object-cover">
-          <h3 class="text-lg font-semibold mb-2">Mindfulness Workshop</h3>
-          <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark mb-3">Join our weekly guided mindfulness sessions to help you de-stress and stay present.</p>
-          <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm">Join Now</button>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="bg-card-light dark:bg-card-dark rounded-2xl shadow-md p-5 border border-border-light dark:border-border-dark hover:shadow-lg transition">
-          <img src="https://placehold.co/600x400/png?text=Yoga+for+Beginners" alt="Yoga" class="rounded-xl mb-4 w-full h-40 object-cover">
-          <h3 class="text-lg font-semibold mb-2">Yoga for Beginners</h3>
-          <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark mb-3">Relax and recharge through gentle yoga postures and breathing exercises.</p>
-          <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm">Join Now</button>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="bg-card-light dark:bg-card-dark rounded-2xl shadow-md p-5 border border-border-light dark:border-border-dark hover:shadow-lg transition">
-          <img src="https://placehold.co/600x400/png?text=Therapy+Sessions" alt="Therapy" class="rounded-xl mb-4 w-full h-40 object-cover">
-          <h3 class="text-lg font-semibold mb-2">Therapy Sessions</h3>
-          <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark mb-3">Book a private or group therapy session with our certified professionals.</p>
-          <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm">Book Session</button>
-        </div>
-      </div>
-    </section>
-  </main>
-
-</body>
+</script>
+    
+    </body>
 </html>
