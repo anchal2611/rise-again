@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>AI Companion Chat</title>
+    <title>Elly AI</title>
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
@@ -266,7 +267,7 @@
 
     <header class="mobile-header">
         <div class="logo-container">
-            <img src="https://placehold.co/100x100/png?text=logo.png" alt="Rise Again Logo" class="logo-img">
+            <img src="logo.jpg" alt="Rise Again Logo" class="logo-img">
             <h1 class="logo-title">Rise Again</h1>
         </div>
         <button id="hamburger-button" class="icon-button">
@@ -279,7 +280,7 @@
             <div class="sidebar-top">
                 <div class="sidebar-header">
                     <div class="logo-container">
-                        <img src="https://placehold.co/100x100/png?text=logo.png" alt="Rise Again Logo" class="logo-img">
+                        <img src="logo.jpg" alt="Rise Again Logo" class="logo-img">
                         <h1 class="logo-title">Rise Again</h1>
                     </div>
                     <button id="close-sidebar-button" class="icon-button">
@@ -287,18 +288,18 @@
                     </button>
                 </div>
                 <nav class="sidebar-nav">
-                    <a class="nav-link active" href="#"> <i class="fa-solid fa-house"></i>
+                    <a class="nav-link active" href="dashboard.html"> <i class="fa-solid fa-house"></i>
                         <p>Dashboard</p>
                     </a>
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="healinghub.html">
                         <i class="fa-solid fa-heart-pulse"></i>
                         <p>Healing Hub</p>
                     </a>
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="anonymous_community.html">
                         <i class="fa-solid fa-users"></i>
                         <p>Anonymous Community</p>
                     </a>
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="digiloc.html">
                         <i class="fa-solid fa-lock"></i>
                         <p>Digital Locker</p>
                     </a>
@@ -313,8 +314,8 @@
                 <div class="user-profile">
                     <div class="avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC5YqndIBqsokDK8ko2vdMVUJCtOr1FF5UqHpHuqVZ1Y-WofbIDtOrv2wR1CUCu1tGu8V4L5cpYMZmEIkmpH_ZatKxJMcRooFLMO3QkAwjSCTslkOfwB12s9gVR1HGdaPoQUt8pUnnQ4kLrHOGwrLlcczmbM4sXkjb1kCy78hPRkKIvgYjfsGPVyScJq2aesTxsVgN3vyt3iRZqr-PQkBITKB68EruasC0NhMCK_XdI9DQpws77pkbKLz3hoqwgBopQhy8-xgYnDk");'></div>
                     <div class="user-details">
-                        <h1>Amelia</h1>
-                        <p>amelia.r@email.com</p>
+                        <h1>Ananya</h1>
+                        <p>ananya.r@email.com</p>
                     </div>
                 </div>
             </div>
@@ -361,7 +362,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Navbar Logic (Aapka original code) ---
             const hamburgerButton = document.getElementById('hamburger-button');
             const closeSidebarButton = document.getElementById('close-sidebar-button');
             const sidebar = document.getElementById('sidebar');
