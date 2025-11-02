@@ -24,6 +24,7 @@
             --font-display: "Lora", serif;
             --font-body: "Lato", sans-serif;
         }
+
         body.dark-theme {
             --background: #211411;
             --text-primary: #e0d9d1;
@@ -34,42 +35,227 @@
             --accent-active-text: #e0d9d1;
             --border-color: rgba(230, 99, 76, 0.2);
         }
-        .sidebar *, .mobile-header * { box-sizing: border-box; }
-        .mobile-header { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background-color: var(--card); border-bottom: 1px solid var(--border-color); position: fixed; top: 0; left: 0; right: 0; z-index: 40; }
-        @media (min-width: 768px) { .mobile-header { display: none; } }
-        .logo-container { display: flex; align-items: center; gap: 0.75rem; }
-        .logo-img { height: 2rem; width: 2rem; }
-        .logo-title { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--text-primary); margin: 0; }
-        .icon-button { color: var(--text-primary); font-size: 1.5rem; font-family: inherit; background: none; border: none; cursor: pointer; padding: 0; }
-        .sidebar { display: flex; flex-direction: column; justify-content: space-between; width: 256px; background-color: var(--card); border-right: 1px solid var(--border-color); padding: 1rem; height: 100vh; flex-shrink: 0; position: fixed; top: 0; left: 0; z-index: 50; transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
-        .sidebar.is-open { transform: translateX(0); }
-        .sidebar-header { display: flex; align-items: center; justify-content: space-between; padding: 0 0.75rem; }
-        .sidebar-top { display: flex; flex-direction: column; gap: 2rem; }
-        .sidebar-nav { display: flex; flex-direction: column; gap: 0.5rem; }
-        .nav-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; border-radius: 0.5rem; transition: background-color 0.2s; text-decoration: none; }
-        .nav-link p { font-family: var(--font-body); font-size: 0.875rem; font-weight: 500; line-height: 1.4; color: var(--text-primary); margin: 0; }
-        .nav-link i { color: var(--text-secondary); }
-        .nav-link:hover { background-color: var(--accent); }
-        .nav-link.active { background-color: var(--accent-active); }
-        .nav-link.active p, .nav-link.active i { color: var(--accent-active-text); }
-        body.dark-theme .nav-link.active p, body.dark-theme .nav-link.active i { color: var(--accent-active-text); }
-        .sidebar-bottom { display: flex; flex-direction: column; gap: 0.5rem; }
-        .divider { border-top: 1px solid var(--border-color); margin: 0.5rem 0; }
-        .user-profile { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; }
-        .avatar { width: 2.5rem; height: 2.5rem; border-radius: 9999px; background-size: cover; background-position: center; background-repeat: no-repeat; }
-        .user-details h1 { font-family: var(--font-display); font-size: 1rem; font-weight: 500; color: var(--text-primary); margin: 0; }
-        .user-details p { font-family: var(--font-body); font-size: 0.875rem; font-weight: 400; color: var(--text-secondary); margin: 0; }
-        @media (min-width: 768px) { #close-sidebar-button { display: none; } .sidebar { position: sticky; top: 0; transform: none; z-index: 30; } }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+        .sidebar *,
+        .mobile-header * {
+            box-sizing: border-box;
+        }
+
+        .mobile-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            background-color: var(--card);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 40;
+        }
+
+        @media (min-width: 768px) {
+            .mobile-header {
+                display: none;
+            }
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-img {
+            height: 2rem;
+            width: 2rem;
+        }
+
+        .logo-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .icon-button {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-family: inherit;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 256px;
+            background-color: var(--card);
+            border-right: 1px solid var(--border-color);
+            padding: 1rem;
+            height: 100vh;
+            flex-shrink: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 50;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .sidebar.is-open {
+            transform: translateX(0);
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 0.75rem;
+        }
+
+        .sidebar-top {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+            text-decoration: none;
+        }
+
+        .nav-link p {
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            font-weight: 500;
+            line-height: 1.4;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .nav-link i {
+            color: var(--text-secondary);
+        }
+
+        .nav-link:hover {
+            background-color: var(--accent);
+        }
+
+        .nav-link.active {
+            background-color: var(--accent-active);
+        }
+
+        .nav-link.active p,
+        .nav-link.active i {
+            color: var(--accent-active-text);
+        }
+
+        body.dark-theme .nav-link.active p,
+        body.dark-theme .nav-link.active i {
+            color: var(--accent-active-text);
+        }
+
+        .sidebar-bottom {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .divider {
+            border-top: 1px solid var(--border-color);
+            margin: 0.5rem 0;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0.75rem;
+        }
+
+        .avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .user-details h1 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .user-details p {
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        @media (min-width: 768px) {
+            #close-sidebar-button {
+                display: none;
+            }
+
+            .sidebar {
+                position: sticky;
+                top: 0;
+                transform: none;
+                z-index: 30;
+            }
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
     </style>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
-                    colors: { "primary": "#e6634c", "background-light": "#f8f6f6", "background-dark": "#211411", "app-bg": "#F5F0E6", "chat-bg": "#FAF7F2", "text-main": "#4E403B", "text-secondary": "#955b50", "chip-bg": "#f3e9e8", },
-                    fontFamily: { "display": ["Manrope", "sans-serif"] },
-                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                    colors: {
+                        "primary": "#e6634c",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#211411",
+                        "app-bg": "#F5F0E6",
+                        "chat-bg": "#FAF7F2",
+                        "text-main": "#4E403B",
+                        "text-secondary": "#955b50",
+                        "chip-bg": "#f3e9e8",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
                 },
             },
         }
@@ -149,9 +335,9 @@
                         <span class="material-symbols-outlined text-2xl">close</span>
                     </button>
                 </header>
-                
+
                 <div class="flex flex-1 flex-col gap-4 overflow-y-auto p-6">
-                    </div>
+                </div>
 
                 <footer class="flex flex-col border-t border-solid border-t-black/10 bg-chat-bg p-4">
                     <div class="mb-3 flex flex-wrap gap-2 px-2">
@@ -218,7 +404,9 @@
                 // 3. User ke message ko history mein add karein
                 chatHistory.push({
                     role: "user",
-                    parts: [{ text: text }]
+                    parts: [{
+                        text: text
+                    }]
                 });
 
                 try {
@@ -244,7 +432,9 @@
                     // 5. AI ke jawaab ko history mein add karein
                     chatHistory.push({
                         role: "model",
-                        parts: [{ text: aiReply }]
+                        parts: [{
+                            text: aiReply
+                        }]
                     });
 
                     // 6. AI ka jawaab screen par dikhayein
@@ -257,41 +447,39 @@
             }
 
             // 7. Display Message Function (Yeh HTML banata hai)
-function displayMessage(user, text) {
-    // Typing indicator (agar hai) toh hata dein
-    const typingIndicator = conversationArea.querySelector(".typing-indicator");
-    if (typingIndicator) {
-        typingIndicator.remove();
-    }
+            function displayMessage(user, text) {
+                // Typing indicator (agar hai) toh hata dein
+                const typingIndicator = conversationArea.querySelector(".typing-indicator");
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
 
-    let messageHtml = "";
-    if (user === "you") {
-        messageHtml = `
-        <div class="flex items-end gap-3 self-end justify-end">
-            <div class="flex flex-1 flex-col items-end gap-1">
-                <p class="max-w-[360px] text-right text-[13px] font-medium leading-normal text-text-secondary">You</p>
-                <p class="flex max-w-[360px] rounded-lg bg-primary px-4 py-3 text-base font-normal leading-normal text-white">${text}</p>
-            </div>
-            <div class="h-10 w-10 shrink-0 rounded-full bg-cover bg-center bg-no-repeat" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDU8zgYe_j2TInF0v--Wu5YFHC169xUhsRAU0JHTFvV0gaJd8ufA8Y6kq5y9hVInWdpWKmbNtE5_8JtGFgGALGo2FsEl5s71HaHtyk8oUsWAyyWG7RMO9MzTPCMOoK0gc5tIr0BrT-OBnMd9oL3ANSHkv8TbX7-b5X2eCMtQT3ofMnJtuc4wwqrNLBbRaHXXRxd0a_DNfu4UnJpq7zijwTeCxT1PYtoESZjIUh6bI3mV8fAMPuof5NMf3PjLUinf0_jS-bL5wBYSQ48")'></div>
-        </div>`;
-    } else {
-        // --- THIS IS THE CHANGED PART ---
-        messageHtml = `
-        <div class="flex items-end gap-3 self-start">
-            <div class="h-10 w-10 shrink-0 rounded-full bg-cover bg-center bg-no-repeat" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCnJV2itOio3kgMj0yfg7txWeFsZZgwljSmtgjC99x5W5sU68xdufmw9q2X65DhsLTkiGesGSAHtlCpHcwZmWGrqkRK1arLFvyiF99ITxchZuETSsq042Q-M-kqRk8OWNGYDtLiJgfwaGeQiDngpp_Fm9HJv7dkZV6C2wt6GfKPc6LEVFKfE4cjmuU9DDhOKY6BjXYl-TCembDtZN9yOa2UjFZl7XW_AL3hp9-Izrd-F1e2jOKpZH58h7G7amDR2VK6eeh4NPtACnUt");'></div>
-            <div class="flex flex-1 flex-col items-start gap-1">
-                <p class="max-w-[360px] text-[13px] font-medium leading-normal text-text-secondary">Elly</p>
-
-                <div class="prose max-w-[360px] rounded-lg bg-chip-bg px-4 py-3 text-base font-normal leading-normal text-text-main">
-                    ${marked.parse(text)}
-                </div>
-
-            </div>
-        </div>`;
-    }
-    conversationArea.insertAdjacentHTML("beforeend", messageHtml);
-    conversationArea.scrollTop = conversationArea.scrollHeight;
-}
+                let messageHtml = "";
+                if (user === "you") {
+                    messageHtml = `
+                    <div class="flex items-end gap-3 self-end justify-end">
+                        <div class="flex flex-1 flex-col items-end gap-1">
+                            <p class="max-w-[360px] text-right text-[13px] font-medium leading-normal text-text-secondary">You</p>
+                            <p class="flex max-w-[360px] rounded-lg bg-primary px-4 py-3 text-base font-normal leading-normal text-white">${text}</p>
+                        </div>
+                        <div class="h-10 w-10 shrink-0 rounded-full bg-cover bg-center bg-no-repeat" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDU8zgYe_j2TInF0v--Wu5YFHC169xUhsRAU0JHTFvV0gaJd8ufA8Y6kq5y9hVInWdpWKmbNtE5_8JtGFgGALGo2FsEl5s71HaHtyk8oUsWAyyWG7RMO9MzTPCMOoK0gc5tIr0BrT-OBnMd9oL3ANSHkv8TbX7-b5X2eCMtQT3ofMnJtuc4wwqrNLBbRaHXXRxd0a_DNfu4UnJpq7zijwTeCxT1PYtoESZjIUh6bI3mV8fAMPuof5NMf3PjLUinf0_jS-bL5wBYSQ48")'></div>
+                    </div>`;
+                } else {
+                    // --- THIS IS THE CHANGED PART ---
+                    messageHtml = `
+                    <div class="flex items-end gap-3 self-start">
+                        <div class="h-10 w-10 shrink-0 rounded-full bg-cover bg-center bg-no-repeat" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCnJV2itOio3kgMj0yfg7txWeFsZZgwljSmtgjC99x5W5sU68xdufmw9q2X65DhsLTkiGesGSAHtlCpHcwZmWGrqkRK1arLFvyiF99ITxchZuETSsq042Q-M-kqRk8OWNGYDtLiJgfwaGeQiDngpp_Fm9HJv7dkZV6C2wt6GfKPc6LEVFKfE4cjmuU9DDhOKY6BjXYl-TCembDtZN9yOa2UjFZl7XW_AL3hp9-Izrd-F1e2jOKpZH58h7G7amDR2VK6eeh4NPtACnUt");'></div>
+                        <div class="flex flex-1 flex-col items-start gap-1">
+                            <p class="max-w-[360px] text-[13px] font-medium leading-normal text-text-secondary">Elly</p>
+                            <div class="prose max-w-[360px] rounded-lg bg-chip-bg px-4 py-3 text-base font-normal leading-normal text-text-main">
+                                ${marked.parse(text)}
+                            </div>
+                        </div>
+                    </div>`;
+                }
+                conversationArea.insertAdjacentHTML("beforeend", messageHtml);
+                conversationArea.scrollTop = conversationArea.scrollHeight;
+            }
 
             // 8. Typing Indicator Function
             function showTypingIndicator() {
@@ -325,12 +513,14 @@ function displayMessage(user, text) {
             // ... aur usse history mein add karna
             chatHistory.push({
                 role: "model",
-                parts: [{ text: "Hello, I'm Elly. What's on your mind today?" }]
+                parts: [{
+                    text: "Hello, I'm Elly. What's on your mind today?"
+                }]
             });
 
             // --- END: New Node.js Chat Logic ---
         });
     </script>
-    </body>
+</body>
 
 </html>
