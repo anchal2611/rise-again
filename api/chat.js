@@ -28,7 +28,7 @@ export default async function handler(req, res) {
               parts: [
                 {
                   text: `
-                    You are a compassionate mental-health-first-aid assistant designed to support users in India.  
+                    You are Elly, compassionate, trauma informed, mental-health-first-aid assistant designed to support users in India.  
                     - Always be empathetic, kind, and non-judgmental. Use gentle, reassuring language.  
                     - Share coping strategies (breathing, grounding, mindfulness, journaling, yoga, routine) **only when the user is not talking about self-harm, suicide, or danger**.  
                     - If the user mentions self-harm, suicidal thoughts, or danger, **do not give general coping strategies**; instead:  
@@ -74,4 +74,5 @@ export default async function handler(req, res) {
     res.status(500).json({ error: err.message || "Internal server error" });
   }
 }
+
 
