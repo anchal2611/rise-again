@@ -1,175 +1,156 @@
 <!DOCTYPE html>
-<html lang="en" class="light">
-  <head>
+<html lang="en">
+<head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rise Again – Dashboard</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Dashboard - Rise Again Platform</title>
 
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJz9CgXb88L+SY+25PSHqWz9BVSW1GqF6/r5jG+P5e9oB6PzI2Xh6Ew8uP6Q=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              primary: "#e6634c",
-              "bg-light": "#f5f0e6",
-              "bg-dark": "#2d2624",
-              "card-light": "#fbf9f8",
-              "card-dark": "#3a302e",
-              "text-light": "#4e403b",
-              "text-dark": "#e0d9d1",
-              "muted-light": "#7c6c66",
-              "muted-dark": "#b0a39d",
-              accent: "#d8c7b8",
-            },
-            fontFamily: {
-              display: ["Manrope", "sans-serif"],
-            },
-          },
-        },
-      };
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <script src="https://kit.fontawesome.com/4ca844b3a8.js" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="dashboard.css" />
-  </head>
 
-  <body class="font-display bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark min-h-screen flex flex-col lg:flex-row">
-    <aside
-      class="hidden lg:flex flex-col justify-between h-screen w-64 border-r border-accent/40 bg-card-light dark:bg-card-dark p-4 sticky top-0 z-10"
-      aria-label="Sidebar Navigation"
-    >
-      <div>
-        <div class="flex items-center gap-3 mb-8">
-          <img src="https://via.placeholder.com/32x32?text=RA" alt="Rise Again Logo" class="h-8 w-8 rounded-full border border-primary/50" />
-          <h1 class="text-xl font-extrabold tracking-tight">Rise Again</h1>
+    <script src="dashboard.js" defer></script>
+</head>
+<body class="light-theme"> <header class="mobile-header">
+        <div class="logo-container">
+            <img src="https://placehold.co/100x100/png?text=logo.png" alt="Rise Again Logo" class="logo-img">
+            <h1 class="logo-title">Rise Again</h1>
         </div>
-        <nav class="flex flex-col gap-2">
-          <a href="dashboard.html" class="nav-item active" aria-current="page"><i class="fa-solid fa-house"></i>Dashboard</a>
-          <a href="healinghub.html" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i>Healing Hub</a>
-          <a href="anonymous_community.html" class="nav-item"><i class="fa-solid fa-users-line"></i>Anonymous Community</a>
-          <a href="healinghub.html" class="nav-item"><i class="fa-solid fa-map-location-dot"></i>Guidance Hub</a>
-          <a href="digiloc.html" class="nav-item"><i class="fa-solid fa-lock"></i>Digital Locker</a>
-          <a href="#" class="nav-item"><i class="fa-solid fa-robot"></i>AI Chatbot Ally</a>
-        </nav>
-      </div>
-
-      <div class="mt-8 border-t border-accent/40 pt-4 flex flex-col gap-2">
-        <button id="themeToggle" class="nav-item justify-start" aria-label="Toggle Dark/Light Theme">
-          <i class="fa-solid fa-moon"></i><span id="themeText">Dark Mode</span>
+        <button id="hamburger-button" class="icon-button">
+            <i class="fa-solid fa-bars"></i>
         </button>
-        <a class="nav-item"><i class="fa-solid fa-gear"></i>Settings</a>
-      </div>
-    </aside>
+    </header>
 
-    <nav
-      class="lg:hidden fixed bottom-0 left-0 right-0 bg-card-light dark:bg-card-dark border-t border-accent/30 flex justify-around py-2 z-20"
-      aria-label="Mobile Navigation"
-    >
-      <button class="nav-btn active" aria-label="Dashboard"><i class="fa-solid fa-house"></i></button>
-      <button class="nav-btn" aria-label="Healing Hub"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
-      <button class="nav-btn" aria-label="Community"><i class="fa-solid fa-users-line"></i></button>
-      <button class="nav-btn" aria-label="Guidance Hub"><i class="fa-solid fa-map-location-dot"></i></button>
-      <button class="nav-btn" aria-label="AI Chatbot Ally"><i class="fa-solid fa-robot"></i></button>
-    </nav>
-
-    <div class="flex-grow">
-        <main class="lg:ml-0 px-4 md:px-8 py-8 lg:py-12 max-w-6xl mx-auto w-full">
-            <div class="lg:hidden flex items-center justify-between mb-8 pb-4 border-b border-accent/30">
-                <div class="flex items-center gap-2">
-                    <img src="https://via.placeholder.com/28x28?text=RA" alt="Rise Again Logo" class="h-7 w-7 rounded-full border border-primary/50" />
-                    <span class="text-xl font-extrabold tracking-tight">Rise Again</span>
+    <div class="main-container">
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-top">
+                <div class="sidebar-header">
+                    <div class="logo-container">
+                        <img src="https://placehold.co/100x100/png?text=logo.png" alt="Rise Again Logo" class="logo-img">
+                        <h1 class="logo-title">Rise Again</h1>
+                    </div>
+                    <button id="close-sidebar-button" class="icon-button">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
                 </div>
-                <button id="themeToggleMobile" class="p-2 rounded-full hover:bg-accent/30 transition-colors" aria-label="Toggle Dark/Light Theme">
-                    <i class="fa-solid fa-moon text-lg"></i>
-                </button>
+                <nav class="sidebar-nav">
+                    <a class="nav-link active" href="dashboard.html">
+                        <i class="fa-solid fa-house"></i>
+                        <p>Dashboard</p>
+                    </a>
+                    <a class="nav-link" href="healinghub.html">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                        <p>Healing Hub</p>
+                    </a>
+                    <a class="nav-link" href="anonymous_community.html">
+                        <i class="fa-solid fa-users"></i>
+                        <p>Anonymous Community</p>
+                    </a>
+                    <a class="nav-link" href="digiloc.html">
+                        <i class="fa-solid fa-lock"></i>
+                        <p>Digital Locker</p>
+                    </a>
+                </nav>
             </div>
-
-            <header class="mb-10 flex items-center justify-between">
-                <h1 class="text-3xl md:text-4xl font-extrabold flex-grow text-center lg:text-left">
-                    Hello, <span id="userName">...</span> <span role="img" aria-label="Flower emoji">🌼</span>
-                </h1>
-                <button id="themeToggleDesktopIcon" class="hidden lg:block p-2 rounded-full hover:bg-accent/30 transition-colors" aria-label="Toggle Dark/Light Theme">
-                    <i class="fa-solid fa-moon text-lg"></i>
-                </button>
-            </header>
-
-            <p class="text-muted-light dark:text-muted-dark mt-2 text-center lg:text-left max-w-3xl mx-auto lg:mx-0 mb-8">
-                You’re safe here. Take a moment to breathe and begin your healing journey.
-            </p>
-
-            <section
-                class="bg-card-light dark:bg-card-dark border border-accent/60 p-6 md:p-8 rounded-2xl shadow-xl mb-12 max-w-2xl mx-auto"
-                aria-labelledby="affirmationHeading"
-            >
-                <h2 id="affirmationHeading" class="text-primary text-sm font-extrabold uppercase tracking-widest mb-3 text-center">
-                    Daily Compass
-                </h2>
-                <blockquote
-                  id="affirmationText"
-                  class="text-xl md:text-2xl italic font-medium text-center text-text-light dark:text-text-dark"
-                  aria-live="polite"
-                >
-                    “Loading affirmation...”
-                </blockquote>
-            </section>
-
-            <section class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <a href="#" class="card group">
-                    <div
-                        class="aspect-video bg-cover rounded-lg overflow-hidden transition-transform duration-300 group-hover:scale-[1.02]"
-                        style="background-image: url('https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=800&q=60')"
-                        aria-label="Image of a person meditating in nature"
-                    ></div>
-                    <h3 class="font-bold mt-4 text-lg">Healing Hub ✨</h3>
-                    <p class="text-sm text-muted-light dark:text-muted-dark mt-1">Explore mindfulness and self-help exercises.</p>
+            <div class="sidebar-bottom">
+                <a class="nav-link" href="#">
+                    <i class="fa-solid fa-gear"></i>
+                    <p>Settings</p>
                 </a>
-                <a href="#" class="card group">
-                    <div
-                        class="aspect-video bg-cover rounded-lg overflow-hidden transition-transform duration-300 group-hover:scale-[1.02]"
-                        style="background-image: url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=60')"
-                        aria-label="Image of people holding hands in a circle"
-                    ></div>
-                    <h3 class="font-bold mt-4 text-lg">Anonymous Community 🤝</h3>
-                    <p class="text-sm text-muted-light dark:text-muted-dark mt-1">Connect with others on similar journeys securely.</p>
-                </a>
-                <a href="#" class="card group">
-                    <div
-                        class="aspect-video bg-cover rounded-lg overflow-hidden transition-transform duration-300 group-hover:scale-[1.02]"
-                        style="background-image: url('https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=800&q=60')"
-                        aria-label="Image of an open book with light shining on it"
-                    ></div>
-                    <h3 class="font-bold mt-4 text-lg">Guidance Hub 🧭</h3>
-                    <p class="text-sm text-muted-light dark:text-muted-dark mt-1">Know your rights and safety measures.</p>
-                </a>
-            </section>
+                <div class="divider"></div>
+                <div class="user-profile">
+                    <div class="avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC5YqndIBqsokDK8ko2vdMVUJCtOr1FF5UqHpHuqVZ1Y-WofbIDtOrv2wR1CUCu1tGu8V4L5cpYMZmEIkmpH__ZatKxJMcRooFLMO3QkAwjSCTslkOfwB12s9gVR1HGdaPoQUt8pUnnQ4kLrHOGwrLlcczmbM4sXkjb1kCy78hPRkKIvgYjfsGPVyScJq2aesTxsVgN3vyt3iRZqr-PQkBITKB68EruasC0NhMCK_XdI9DQpws77pkbKLz3hoqwgBopQhy8_-xgYnDk");'></div>
+                    <div class="user-details">
+                        <h1>Ananya</h1>
+                        <p>ananya.r@email.com</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
 
-            <footer class="mt-20 pt-6 border-t border-accent/30 text-center text-sm text-muted-light dark:text-muted-dark">
-                <p>Healing is a process, not a destination. You're doing great. 💖</p>
-                <p class="mt-1">© 2025 Rise Again. All rights reserved.</p>
-            </footer>
+        <main class="main-content">
+            <div class="content-wrapper">
+                <header class="page-header">
+                    <h1>Welcome back, Ananya</h1>
+                    <p>It's good to see you. Let's take a gentle step forward today.</p>
+                </header>
+
+                <div class="content-layout">
+                
+                    <section class="card daily-affirmation">
+                        <h3>Daily Affirmation</h3>
+                        <p class="affirmation-text">"I am worthy of peace and healing."</p>
+                    </section>
+
+                    <section class="card soothing-music">
+                        <div class="card-content">
+                            <div class="card-text">
+                                <p class="card-subtitle">Soothing Music</p>
+                                <p class="card-title">Your Calming Playlist</p>
+                                <p class="card-description">Find a moment of calm with this curated playlist.</p>
+                            </div>
+                            <a href="https://open.spotify.com/playlist/0Owpoue1HympDh6su0yZk3?si=fqPdOjcpROKAYMr8jITXWg" target="_blank" rel="noopener noreferrer" class="cta-button">
+                                <i class="fa-brands fa-spotify"></i>
+                                <span>Listen on Spotify</span>
+                            </a>
+                        </div>
+                        <div class="card-image" style='background-image: url("https://i.pinimg.com/736x/a2/a0/bb/a2a0bb8a87262e196fe6ccb23f19ccb9.jpg");'></div>
+                    </section>
+
+                    <div class="main-grid">
+                        <div class="grid-col-span-2">
+                            <section>
+                                <h2 class="section-title">Quick Links</h2>
+                                <div class="quick-links-grid">
+                                    <div class="quick-link-card">
+                                        <div class="quick-link-img" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBE2f13CjkkpyGU2OAqsSrO3wmXa9sFuF2r1zx5FwO9p13EcoqT4ylsPkf2luzaMCkRZfAJX4l5jxSpLuUyiMGGQHEoCdyzVFulLT36oi_7sBbHV-XkT1zz8Hbm67bK1rvpFsIcrE_gOfz6u489zRmVLH_KZ1KU5oB8FEhEjPhXC3SSCqsg4WCOWMhscxI76LN6ZhoJhu3B-Lq3ZFcFV3xMgL7mViiwmZNclOfSA4sjwbv7INYRXkYITKv7BK6Kf1AKUsh9adtrWG6d");'></div>
+                                        <div>
+                                            <p class="quick-link-title">Start a new Journal Entry</p>
+                                            <p class="quick-link-desc">Reflect and record your thoughts.</p>
+                                        </div>
+                                    </div>
+                                    <div class="quick-link-card">
+                                        <div class="quick-link-img" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAqynMzt2jHcvVv6PgEjx4iQym0vEc5DMEaIVEHt8EFnS8EX9pK4G2f9rh_UVnHrAkPDaxXcLTpOeuq1F2plVLCTnIkSrgXhSU1pepKEQFBMe0OgudO2tGxl00ZiZPbBdHieXBAfLXNMN-rx_8i4pMZKfMQNmhpZDleVVxyYnhEMyZg3jFvj0_yr0mHX8jK5ORQM0cNNhq171VJNWfRynd0Xmpggs0uSMdtMvk64IMaDFVd_Fri8NvFRaiOFydeIZi08wlJwiky0tMX");'></div>
+                                        <div>
+                                            <p class="quick-link-title">Explore the Healing Hub</p>
+                                            <p class="quick-link-desc">Discover tailored resources.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        
+                        <div class="sidebar-col">
+                            <section>
+                                <h2 class="section-title">Suggested for You</h2>
+                                <div class="card suggested-card">
+                                    <div class="suggested-img" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBqeBOk-ma8O1w9aYt_AoD9PMQIXYSWEay4ETfUHazf2Ozy8DeKYcEkK3xMClxgscBKAPAPGMGr9i-ca_Jb769uiHPK8Oyz0Dr66Hr5nymZK3T2-aMEENLpQaD82zKSG5c_PGbK4Q7DHOaMMYdMkV_-SGR_AxzU7bDIOOXrrJ1v-Y-Era-5GzCoPN2uXF2p-vODCasYjLH1OANXoWGU8dZ5mFiAjX2by8qqxMewRAuUL4mAZ5BD2ofOyesXqDtSoNrqiQeBXL_goSSU");'></div>
+                                    <div>
+                                        <p class="suggested-title">Grounding Exercise: 5 Senses</p>
+                                        <p class="suggested-desc">A gentle practice to bring you to the present moment.</p>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="page-footer">
+                    <p>© 2024 Rise Again. All rights reserved.</p>
+                    <nav class="footer-nav">
+                        <a href="#">Help/Support</a>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                    </nav>
+                </footer>
+            </div>
         </main>
     </div>
 
-    <button
-      class="fixed bottom-20 right-6 lg:bottom-6 bg-primary rounded-full h-16 w-16 flex items-center justify-center shadow-2xl hover:scale-105 transition-all duration-300 ease-out z-30 transform hover:rotate-6"
-      aria-label="Open AI Chatbot Ally"
-    >
-      <i class="fa-solid fa-comments text-white text-2xl"></i>
+    <button class="fab-chatbot">
+        <i class="fa-solid fa-comment-dots"></i>
     </button>
-
-    <script type="module" src="dashboard.js"></script>
-  </body>
+</body>
 </html>
