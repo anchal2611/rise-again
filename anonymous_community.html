@@ -3,169 +3,285 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rise Again | Anonymous Community</title>
+  <title>Anonymous Community</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#e6634c',
+            'background-light': '#F5F0E6',
+            'background-dark': '#1a1412',
+            card: '#FAF7F2',
+            'card-dark': '#2b1f1d',
+            'text-primary': '#4E403B',
+            'text-secondary': '#955b50',
+            'text-dark-primary': '#f7eae5',
+            'text-dark-secondary': '#d3b9b2',
+            'border-color': '#e6d4d1',
+          },
+          fontFamily: { display: ['Manrope', 'sans-serif'] },
+          boxShadow: { soft: '0 2px 10px rgba(0,0,0,0.08)' },
+        },
+      },
+    };
+  </script>
+
   <style>
     html { scroll-behavior: smooth; }
     .fade-in { animation: fadeIn 0.3s ease-in; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
+
+    /* --- Sidebar + Mobile Header Styles --- */
+    :root {
+      --primary: #e6634c;
+      --background: #f5f0e6;
+      --text-primary: #4e403b;
+      --text-secondary: #7c6c66;
+      --card: #fbf9f8;
+      --accent: #f5f0e6;
+      --accent-active: #e6634c;
+      --accent-active-text: #ffffff;
+      --border-color: rgba(78, 64, 59, 0.1);
+    }
+
+    body.dark-theme {
+      --background: #211411;
+      --text-primary: #e0d9d1;
+      --text-secondary: #b0a39d;
+      --card: #3a302e;
+      --accent: rgba(230, 99, 76, 0.2);
+      --accent-active: rgba(230, 99, 76, 0.3);
+      --accent-active-text: #e0d9d1;
+      --border-color: rgba(230, 99, 76, 0.2);
+    }
+
+    .sidebar *, .mobile-header * { box-sizing: border-box; }
+
+    .mobile-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 1rem;
+      background-color: var(--card);
+      border-bottom: 1px solid var(--border-color);
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 40;
+    }
+    @media (min-width: 768px) { .mobile-header { display: none; } }
+
+    .logo-container { display: flex; align-items: center; gap: 0.75rem; }
+    .logo-img { height: 2rem; width: 2rem; }
+    .logo-title { font-family: "Lora", serif; font-size: 1.25rem; font-weight: 700; color: var(--text-primary); margin: 0; }
+    .icon-button { color: var(--text-primary); font-size: 1.5rem; background: none; border: none; cursor: pointer; }
+
+    .sidebar {
+      display: flex; flex-direction: column; justify-content: space-between;
+      width: 256px; background-color: var(--card); border-right: 1px solid var(--border-color);
+      padding: 1rem; height: 100vh;
+      position: fixed; top: 0; left: 0; z-index: 50;
+      transform: translateX(-100%); transition: transform 0.3s ease-in-out;
+    }
+    .sidebar.is-open { transform: translateX(0); }
+    @media (min-width: 768px) {
+      #close-sidebar-button { display: none; }
+      .sidebar { position: sticky; top: 0; transform: none; z-index: 30; }
+    }
+
+    .nav-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem; transition: background-color 0.2s; text-decoration: none;
+    }
+    .nav-link p { font-size: 0.875rem; font-weight: 500; color: var(--text-primary); margin: 0; }
+    .nav-link i { color: var(--text-secondary); }
+    .nav-link:hover { background-color: var(--accent); }
+    .nav-link.active { background-color: var(--accent-active); }
+    .nav-link.active p, .nav-link.active i { color: var(--accent-active-text); }
+
+    .divider { border-top: 1px solid var(--border-color); margin: 0.5rem 0; }
+    .user-profile { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; }
+    .avatar { width: 2.5rem; height: 2.5rem; border-radius: 9999px; background-size: cover; background-position: center; }
+    .user-details h1 { font-size: 1rem; font-weight: 500; color: var(--text-primary); margin: 0; }
+    .user-details p { font-size: 0.875rem; color: var(--text-secondary); margin: 0; }
   </style>
 </head>
 
-<body class="font-display bg-[#F5F0E6] text-[#4E403B] min-h-screen flex flex-col">
+<body class="font-display bg-background-light dark:bg-background-dark text-text-primary dark:text-text-dark-primary transition-colors duration-500 min-h-screen flex">
 
-  <!-- 🧠 MAIN COMMUNITY CONTENT -->
-  <main class="flex-1 w-full max-w-3xl mx-auto px-4 py-8 space-y-6">
-    <section>
-      <h2 class="text-3xl sm:text-4xl font-extrabold mb-2">Anonymous Community Forum</h2>
-      <p class="text-[#7c6c66] text-base">
-        A safe space to share, heal, and connect — free from judgment.
-      </p>
-    </section>
-
-    <!-- ✍️ Composer -->
-    <section class="bg-[#FAF7F2] border border-[#e6d4d1] rounded-xl shadow p-5 space-y-4">
-      <textarea id="postInput" maxlength="500" placeholder="What’s on your mind? Share your story..." 
-        class="w-full bg-transparent border-none focus:ring-0 resize-none placeholder:text-[#955b50] text-base min-h-[80px]"></textarea>
-      <div class="flex justify-between items-center text-sm text-[#955b50]">
-        <span id="charCount">0 / 500</span>
-        <button id="postBtn" class="bg-[#e6634c] text-white font-medium px-5 py-2 rounded-lg hover:opacity-90 transition disabled:opacity-40 disabled:cursor-not-allowed">Create Post</button>
+  <!-- ✅ SIDEBAR -->
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-top">
+      <div class="sidebar-header">
+        <div class="logo-container">
+          <img src="logo.jpg" alt="Rise Again Logo" class="logo-img">
+          <h1 class="logo-title">Rise Again</h1>
+        </div>
+        <button id="close-sidebar-button" class="icon-button">
+          <i class="fa-solid fa-times"></i>
+        </button>
       </div>
-    </section>
+      <nav class="sidebar-nav">
+        <a class="nav-link active" href="dashboard.html"><i class="fa-solid fa-house"></i><p>Dashboard</p></a>
+        <a class="nav-link" href="healinghub.html"><i class="fa-solid fa-heart-pulse"></i><p>Healing Hub</p></a>
+        <a class="nav-link" href="anonymous_community.html"><i class="fa-solid fa-users"></i><p>Anonymous Community</p></a>
+        <a class="nav-link" href="digiloc.html"><i class="fa-solid fa-lock"></i><p>Digital Locker</p></a>
+      </nav>
+    </div>
+    <div class="sidebar-bottom">
+      <a class="nav-link" href="#"><i class="fa-solid fa-gear"></i><p>Settings</p></a>
+      <div class="divider"></div>
+      <div class="user-profile">
+        <div class="avatar" style="background-image:url('https://placehold.co/100x100');"></div>
+        <div class="user-details">
+          <h1>Ananya</h1>
+          <p>ananya.r@email.com</p>
+        </div>
+      </div>
+    </div>
+  </aside>
 
-    <!-- 📰 Feed -->
-    <div id="feed" class="space-y-4"></div>
-  </main>
+  <!-- ✅ MAIN SECTION -->
+  <div class="flex-1 flex flex-col min-h-screen">
+    
+    <!-- 📱 MOBILE HEADER -->
+    <header class="mobile-header">
+      <div class="logo-container">
+        <img src="logo.jpg" alt="Rise Again Logo" class="logo-img">
+        <h1 class="logo-title">Rise Again</h1>
+      </div>
+      <button id="hamburger-button" class="icon-button">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </header>
 
-  <!-- 🧾 Footer -->
-  <footer class="border-t border-[#e6d4d1] mt-12 py-6 text-center text-sm text-[#955b50]">
-    © 2025 Rise Again | <a href="#" class="hover:text-[#e6634c]">Community Guidelines</a> · <a href="#" class="hover:text-[#e6634c]">Privacy Policy</a>
-  </footer>
+    <!-- 🧠 MAIN COMMUNITY CONTENT -->
+    <main class="flex-1 w-full max-w-3xl mx-auto px-4 py-8 space-y-6 mt-16 md:mt-0">
+      <section>
+        <h2 class="text-3xl sm:text-4xl font-extrabold mb-2">Anonymous Community Forum</h2>
+        <p class="text-text-secondary dark:text-text-dark-secondary text-base">
+          A safe space to share, heal, and connect — free from judgment.
+        </p>
+      </section>
 
-  <!-- ✅ FIREBASE SCRIPT -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      onSnapshot,
-      query,
-      orderBy,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+      <!-- ✍️ Composer -->
+      <section class="bg-card dark:bg-card-dark border border-border-color dark:border-border-color/40 rounded-xl shadow-soft p-5 space-y-4">
+        <textarea id="postInput" maxlength="500" placeholder="What’s on your mind? Share your story..." 
+          class="w-full bg-transparent border-none focus:ring-0 resize-none placeholder:text-text-secondary dark:placeholder:text-text-dark-secondary text-base min-h-[80px]"></textarea>
+        <div class="flex justify-between items-center text-sm text-text-secondary dark:text-text-dark-secondary">
+          <span id="charCount">0 / 500</span>
+          <button id="postBtn" class="bg-primary text-card font-medium px-5 py-2 rounded-lg hover:opacity-90 transition disabled:opacity-40 disabled:cursor-not-allowed">Create Post</button>
+        </div>
+      </section>
 
-    // 🔥 Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyBFITDK4_gch6haF8TQHdt2VL6Wl1j-0ds",
-      authDomain: "riseagain-334f7.firebaseapp.com",
-      projectId: "riseagain-334f7",
-      storageBucket: "riseagain-334f7.appspot.com",
-      messagingSenderId: "608024652359",
-      appId: "1:608024652359:web:8d3211afd24bd0f2815f62",
-      measurementId: "G-FCKHSRLSE5"
-    };
+      <!-- 📰 Feed -->
+      <div id="feed" class="space-y-4"></div>
+    </main>
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    <!-- 🧾 Footer -->
+    <footer class="border-t border-border-color mt-12 py-6 text-center text-sm text-text-secondary dark:text-text-dark-secondary">
+      © 2025 Rise Again | <a href="#" class="hover:text-primary">Community Guidelines</a> · <a href="#" class="hover:text-primary">Privacy Policy</a>
+    </footer>
+  </div>
 
+  <!-- ✅ SCRIPTS -->
+  <script>
+    // --- Sidebar toggle ---
+    document.addEventListener('DOMContentLoaded', () => {
+      const hamburgerButton = document.getElementById('hamburger-button');
+      const closeSidebarButton = document.getElementById('close-sidebar-button');
+      const sidebar = document.getElementById('sidebar');
+      if (hamburgerButton && sidebar) hamburgerButton.addEventListener('click', () => sidebar.classList.add('is-open'));
+      if (closeSidebarButton && sidebar) closeSidebarButton.addEventListener('click', () => sidebar.classList.remove('is-open'));
+    });
+
+    // --- Post logic ---
     const postInput = document.getElementById("postInput");
     const postBtn = document.getElementById("postBtn");
     const feed = document.getElementById("feed");
     const charCount = document.getElementById("charCount");
-    const postsRef = collection(db, "posts");
 
-    // 🔢 Character count
     postInput.addEventListener("input", () => {
       charCount.textContent = `${postInput.value.length} / 500`;
       postBtn.disabled = postInput.value.trim().length === 0;
     });
 
-    // ✍️ Create post
-    postBtn.addEventListener("click", async () => {
+    postBtn.addEventListener("click", () => {
       const text = postInput.value.trim();
       if (!text) return;
-      await addDoc(postsRef, {
-        content: text,
-        createdAt: serverTimestamp()
-      });
+
+      const post = document.createElement("article");
+      post.className = "fade-in bg-card dark:bg-card-dark border border-border-color rounded-xl shadow-soft p-6 space-y-3";
+      post.innerHTML = `
+        <div class="flex justify-between items-center text-sm text-text-secondary dark:text-text-dark-secondary">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-cover bg-center rounded-full" style="background-image:url('https://placehold.co/100x100');"></div>
+            <span>Posted just now</span>
+          </div>
+        </div>
+        <p class="text-text-primary dark:text-text-dark-primary leading-relaxed">${text}</p>
+        <div class="flex gap-4 pt-2">
+          <button class="support-btn flex items-center gap-2 text-text-secondary dark:text-text-dark-secondary hover:text-primary">
+            <span class="material-symbols-outlined text-lg">favorite</span>
+            <span class="support-count">0</span>
+          </button>
+          <button class="comment-btn flex items-center gap-2 text-text-secondary dark:text-text-dark-secondary hover:text-primary">
+            <span class="material-symbols-outlined text-lg">mode_comment</span>
+            <span class="comment-count">0</span>
+          </button>
+        </div>
+        <div class="hidden comment-section mt-3 space-y-2">
+          <textarea class="w-full bg-transparent border rounded-lg border-border-color dark:border-border-color/40 p-2 text-sm placeholder:text-text-secondary dark:placeholder:text-text-dark-secondary" rows="2" placeholder="Write a comment..."></textarea>
+          <button class="submit-comment bg-primary text-card px-3 py-1 rounded-lg text-sm font-medium">Post Comment</button>
+          <div class="comments space-y-2 mt-2"></div>
+        </div>
+      `;
+
+      feed.prepend(post);
       postInput.value = "";
       charCount.textContent = "0 / 500";
       postBtn.disabled = true;
+
+      attachInteractions(post);
     });
 
-    // 🧠 Load posts + comments
-    const loadPosts = () => {
-      const q = query(postsRef, orderBy("createdAt", "desc"));
-      onSnapshot(q, (snapshot) => {
-        feed.innerHTML = "";
-        snapshot.forEach((docSnap) => {
-          const data = docSnap.data();
-          const postId = docSnap.id;
-          const postEl = document.createElement("article");
-          postEl.className = "fade-in bg-[#FAF7F2] border border-[#e6d4d1] rounded-xl shadow p-6 space-y-3";
-          postEl.innerHTML = `
-            <div class="flex justify-between items-center text-sm text-[#955b50]">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-cover bg-center rounded-full" style="background-image:url('https://placehold.co/100x100');"></div>
-                <span>${data.createdAt ? data.createdAt.toDate().toLocaleString() : "Just now"}</span>
-              </div>
-            </div>
-            <p class="text-[#4E403B] leading-relaxed">${data.content}</p>
-            <div class="flex gap-4 pt-2">
-              <button class="comment-btn flex items-center gap-2 text-[#955b50] hover:text-[#e6634c]">
-                <span class="material-symbols-outlined text-lg">mode_comment</span>
-                <span class="comment-count">0</span>
-              </button>
-            </div>
-            <div class="hidden comment-section mt-3 space-y-2">
-              <textarea class="comment-input w-full bg-transparent border rounded-lg border-[#e6d4d1] p-2 text-sm placeholder:text-[#955b50]" rows="2" placeholder="Write a comment..."></textarea>
-              <button class="submit-comment bg-[#e6634c] text-white px-3 py-1 rounded-lg text-sm font-medium">Post Comment</button>
-              <div class="comments space-y-2 mt-2"></div>
-            </div>
-          `;
-          feed.appendChild(postEl);
+    // --- Like + Comment Interactions ---
+    function attachInteractions(post) {
+      const supportBtn = post.querySelector(".support-btn");
+      const supportCount = post.querySelector(".support-count");
+      const commentBtn = post.querySelector(".comment-btn");
+      const commentCount = post.querySelector(".comment-count");
+      const commentSection = post.querySelector(".comment-section");
+      const submitComment = post.querySelector(".submit-comment");
+      const commentsContainer = post.querySelector(".comments");
+      const commentInput = post.querySelector("textarea");
 
-          // Load comments
-          const commentsRef = collection(db, "posts", postId, "comments");
-          const commentsContainer = postEl.querySelector(".comments");
-          const commentCount = postEl.querySelector(".comment-count");
-          onSnapshot(query(commentsRef, orderBy("createdAt", "asc")), (commentsSnap) => {
-            commentsContainer.innerHTML = "";
-            commentCount.textContent = commentsSnap.size;
-            commentsSnap.forEach((c) => {
-              const cData = c.data();
-              const p = document.createElement("p");
-              p.className = "text-sm border-b border-[#e6d4d1]/40 pb-1";
-              p.textContent = cData.text;
-              commentsContainer.appendChild(p);
-            });
-          });
+      let liked = false;
 
-          // Add comment
-          const commentBtn = postEl.querySelector(".comment-btn");
-          const commentSection = postEl.querySelector(".comment-section");
-          const submitComment = postEl.querySelector(".submit-comment");
-          const commentInput = postEl.querySelector(".comment-input");
-          commentBtn.addEventListener("click", () => commentSection.classList.toggle("hidden"));
-          submitComment.addEventListener("click", async () => {
-            const text = commentInput.value.trim();
-            if (!text) return;
-            await addDoc(commentsRef, {
-              text,
-              createdAt: serverTimestamp()
-            });
-            commentInput.value = "";
-          });
-        });
+      supportBtn.addEventListener("click", () => {
+        liked = !liked;
+        supportCount.textContent = parseInt(supportCount.textContent) + (liked ? 1 : -1);
+        supportBtn.classList.toggle("text-primary", liked);
       });
-    };
 
-    loadPosts();
+      commentBtn.addEventListener("click", () => {
+        commentSection.classList.toggle("hidden");
+      });
+
+      submitComment.addEventListener("click", () => {
+        const commentText = commentInput.value.trim();
+        if (!commentText) return;
+        const commentEl = document.createElement("p");
+        commentEl.className = "fade-in text-sm text-text-primary dark:text-text-dark-primary border-b border-border-color/40 pb-1";
+        commentEl.textContent = commentText;
+        commentsContainer.appendChild(commentEl);
+        commentInput.value = "";
+        commentCount.textContent = parseInt(commentCount.textContent) + 1;
+      });
+    }
   </script>
 </body>
 </html>
+
