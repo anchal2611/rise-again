@@ -1,84 +1,77 @@
-// This is api/chat.js (the new Vercel-friendly code)
-require('dotenv').config();
-const { GoogleGenerativeAI } = require('@google/generative-ai');
-const admin = require('firebase-admin');
-
-// --- 1. Initialize Firebase Admin (Vercel Way) ---
-try {
-  const serviceAccountBase64 = process.env.GOOGLE_SERVICE_ACCOUNT_BASE64;
-  if (!serviceAccountBase64) {
-    throw new Error('GOOGLE_SERVICE_ACCOUNT_BASE64 env var is not set.');
-  }
-  const serviceAccountJson = Buffer.from(serviceAccountBase64, 'base64').toString('utf-8');
-  const serviceAccount = JSON.parse(serviceAccountJson);
-
-  if (admin.apps.length === 0) {
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount)
-    });
-  }
-} catch (e) {
-  console.error("Firebase Admin initialization error:", e.message);
-}
-const db = admin.firestore();
-
-// --- 2. Initialize Gemini AI ---
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-
-// --- 3. This is the Vercel Serverless Function ---
 export default async function handler(req, res) {
-  // Allow browsers to talk to this API
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*'); 
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+  if (req.method !== "POST") {
+    res.setHeader("Allow", ["POST"]);
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
-  // Handle the POST request from your chatbot
-  if (req.method === 'POST') {
-    try {
-      const { history } = req.body; // Get history from client
-      if (!history || history.length === 0) {
-        return res.status(400).json({ error: 'History is required' });
-      }
+  try {
+    const { message, sentiment } = req.body || {};
 
-      const userMessage = history[history.length - 1].parts[0].text;
-
-      // --- Log user message to Firestore ---
-      const logRef = db.collection('chats').doc('main_chat').collection('messages');
-      await logRef.add({
-        role: 'user',
-        content: userMessage,
-        timestamp: new Date()
-      });
-
-      // --- Get AI reply (FIXED to use chat history) ---
-      const chat = model.startChat({ history: history.slice(0, -1) }); // Send old history
-      const result = await chat.sendMessage(userMessage); // Send the new message
-      const response = await result.response;
-      const aiText = response.text();
-
-      // --- Log AI reply to Firestore ---
-      await logRef.add({
-        role: 'model', // This was a bug in your old code
-        content: aiText,
-        timestamp: new Date()
-      });
-
-      // Send the reply back to the chatbot
-      res.status(200).json({ reply: aiText });
-
-    } catch (error) {
-      console.error('Error in /api/chat:', error);
-      res.status(500).json({ error: 'Something went wrong on the server' });
+    if (!message) {
+      return res.status(400).json({ error: "Message is required" });
     }
-  } else {
-    res.setHeader('Allow', ['POST', 'OPTIONS']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
 
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return res.status(500).json({ error: "Missing GEMINI_API_KEY in environment" });
+    }
+
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: `
+                    You are a compassionate mental-health-first-aid assistant designed to support users in India.  
+                    - Always be empathetic, kind, and non-judgmental. Use gentle, reassuring language.  
+                    - Share coping strategies (breathing, grounding, mindfulness, journaling, yoga, routine) **only when the user is not talking about self-harm, suicide, or danger**.  
+                    - If the user mentions self-harm, suicidal thoughts, or danger, **do not give general coping strategies**; instead:  
+                      - Offer comforting, supportive words  
+                      - Immediately provide **Indian helpline numbers** (e.g., 112 for all emergencies, 14416 for Tele-MANAS, or other official Indian mental health hotlines)  
+                    - Encourage the user to seek professional help immediately  
+                    - Adapt tone based on user sentiment:  
+                      - If negative → be gentle, understanding, and comforting  
+                      - If positive → be encouraging and uplifting  
+                    - Use culturally appropriate examples, references, and language for India.  
+                    - Encourage healthy routines, social support, and professional guidance without giving medical diagnoses.  
+                    - If the user asks for resources, recommend official Indian organizations, helplines, apps, or websites.  
+                    - Avoid giving medical or psychiatric advice; always suggest consulting trained professionals for serious issues.  
+                    - **Always reply in the same language the user used.** Never switch languages on your own.  
+                    - Keep responses concise, safe, supportive, and actionable.  
+                    - Avoid repetitive text; each response should feel personalized and human-like.  
+                    - If unsure, respond with empathy and encourage professional help rather than giving uncertain advice.
+
+                  `
+                },
+                { text: `User (${sentiment || "neutral"} mood): ${message}` }
+              ]
+            }
+          ]
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error("Gemini API error:", data);
+      return res.status(500).json({ error: data.error?.message || "Gemini API request failed" });
+    }
+
+    const reply =
+      data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "I'm here for you, but I couldn’t generate a proper reply right now.";
+
+    res.status(200).json({ reply });
+  } catch (err) {
+    console.error("Server error:", err);
+    res.status(500).json({ error: err.message || "Internal server error" });
+  }
 }
+
