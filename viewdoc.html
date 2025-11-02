@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>View Documents</title>
+  <link rel="stylesheet" href="digiloc.css" />
+  <style>
+    .content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+    .allcontent {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease;
+    }
+    #authBox:hover { transform: translateY(-3px); }
+    #authBox input { display: block; width: 260px; }
+    #loginBtn { width: 260px; }
+    .tagline { color: #666; font-size: 0.9rem; margin-top: 8px; }
+
+    table {
+      margin-top: 20px;
+      border-collapse: collapse;
+      width: 90%;
+      max-width: 700px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #eee;
+    }
+    th { background: #f5f5f5; text-align: left; }
+    td a { color: #007bff; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="user">
+        <div class="avatar"></div>
+        <div class="user-info">
+          <h3>username</h3>
+          <p>Secure Access</p>
+        </div>
+      </div>
+      <nav class="menu">
+        <a href="digiloc.html" class="menu-item active"><i>🔒</i> Digital Locker</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <img src="https://cdn-icons-png.flaticon.com/512/2889/2889676.png" 
+           alt="Locker Icon" width="70" style="margin-bottom:10px;opacity:0.9;">
+
+      <div class="allcontent" id="loginSection"> 
+        <h1>View Your Documents</h1>
+        <p>Please login to access your stored documents.</p>
+        <p class="tagline">Your files are encrypted and safely stored in the cloud.</p>
+
+        <div id="authBox">
+          <input type="email" id="email" placeholder="Email" style="padding:10px;border-radius:8px;border:1px solid #ddd;">
+          <input type="password" id="password" placeholder="Password" style="padding:10px;border-radius:8px;border:1px solid #ddd;">
+          <button class="add-btn" id="loginBtn">Login</button>
+          <p id="loginStatus"></p>
+        </div>
+      </div>
+
+      <table class="file-table" id="docTable" style="display:none;">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Size</th>
+            <th>Uploaded</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="docList"></tbody>
+      </table>
+    </main>
+  </div>
+
+  <script>
+    const loginBtn = document.getElementById("loginBtn");
+    const loginSection = document.getElementById("loginSection");
+    const docTable = document.getElementById("docTable");
+    const docList = document.getElementById("docList");
+    const loginStatus = document.getElementById("loginStatus");
+
+    // Hardcoded demo credentials
+    const demoEmail = "rajputbhavya71@gmail.com";
+    const demoPassword = "123456";
+
+    loginBtn.addEventListener("click", () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      if (email === demoEmail && password === demoPassword) {
+        loginStatus.innerText = "✅ Authenticated!";
+        setTimeout(showDocs, 1000);
+      } else {
+        loginStatus.innerText = "❌ Invalid email or password.";
+      }
+    });
+
+    function showDocs() {
+      loginSection.style.display = "none";
+      docTable.style.display = "table";
+
+      const docs = JSON.parse(localStorage.getItem("docs")) || [];
+      docList.innerHTML = "";
+
+      if (docs.length === 0) {
+        docList.innerHTML = `<tr><td colspan="4">No documents uploaded yet.</td></tr>`;
+        return;
+      }
+
+      docs.forEach((d, i) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${d.name}</td>
+          <td>${d.size}</td>
+          <td>${d.uploadedAt}</td>
+          <td><button class="add-btn" style="background:#b32d2e;" onclick="deleteDoc(${i})">Delete</button></td>
+        `;
+        docList.appendChild(row);
+      });
+    }
+
+    window.deleteDoc = (index) => {
+      if (!confirm("Delete this document?")) return;
+      let docs = JSON.parse(localStorage.getItem("docs")) || [];
+      docs.splice(index, 1);
+      localStorage.setItem("docs", JSON.stringify(docs));
+      showDocs();
+    };
+  </script>
+</body>
+</html>
