@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>AI Companion Chat</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <style>
+        :root {
+            --primary: #e6634c;
+            --background: #f5f0e6;
+            --text-primary: #4e403b;
+            --text-secondary: #7c6c66;
+            --card: #fbf9f8;
+            --accent: #f5f0e6;
+            --accent-active: #e6634c;
+            --accent-active-text: #ffffff;
+            --border-color: rgba(78, 64, 59, 0.1);
+            --font-display: "Lora", serif;
+            --font-body: "Lato", sans-serif;
+        }
+        body.dark-theme {
+            --background: #211411;
+            --text-primary: #e0d9d1;
+            --text-secondary: #b0a39d;
+            --card: #3a302e;
+            --accent: rgba(230, 99, 76, 0.2);
+            --accent-active: rgba(230, 99, 76, 0.3);
+            --accent-active-text: #e0d9d1;
+            --border-color: rgba(230, 99, 76, 0.2);
+        }
+        .sidebar *, .mobile-header * { box-sizing: border-box; }
+        .mobile-header { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background-color: var(--card); border-bottom: 1px solid var(--border-color); position: fixed; top: 0; left: 0; right: 0; z-index: 40; }
+        @media (min-width: 768px) { .mobile-header { display: none; } }
+        .logo-container { display: flex; align-items: center; gap: 0.75rem; }
+        .logo-img { height: 2rem; width: 2rem; }
+        .logo-title { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--text-primary); margin: 0; }
+        .icon-button { color: var(--text-primary); font-size: 1.5rem; font-family: inherit; background: none; border: none; cursor: pointer; padding: 0; }
+        .sidebar { display: flex; flex-direction: column; justify-content: space-between; width: 256px; background-color: var(--card); border-right: 1px solid var(--border-color); padding: 1rem; height: 100vh; flex-shrink: 0; position: fixed; top: 0; left: 0; z-index: 50; transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+        .sidebar.is-open { transform: translateX(0); }
+        .sidebar-header { display: flex; align-items: center; justify-content: space-between; padding: 0 0.75rem; }
+        .sidebar-top { display: flex; flex-direction: column; gap: 2rem; }
+        .sidebar-nav { display: flex; flex-direction: column; gap: 0.5rem; }
+        .nav-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; border-radius: 0.5rem; transition: background-color 0.2s; text-decoration: none; }
+        .nav-link p { font-family: var(--font-body); font-size: 0.875rem; font-weight: 500; line-height: 1.4; color: var(--text-primary); margin: 0; }
+        .nav-link i { color: var(--text-secondary); }
+        .nav-link:hover { background-color: var(--accent); }
+        .nav-link.active { background-color: var(--accent-active); }
+        .nav-link.active p, .nav-link.active i { color: var(--accent-active-text); }
+        body.dark-theme .nav-link.active p, body.dark-theme .nav-link.active i { color: var(--accent-active-text); }
+        .sidebar-bottom { display: flex; flex-direction: column; gap: 0.5rem; }
+        .divider { border-top: 1px solid var(--border-color); margin: 0.5rem 0; }
+        .user-profile { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; }
+        .avatar { width: 2.5rem; height: 2.5rem; border-radius: 9999px; background-size: cover; background-position: center; background-repeat: no-repeat; }
+        .user-details h1 { font-family: var(--font-display); font-size: 1rem; font-weight: 500; color: var(--text-primary); margin: 0; }
+        .user-details p { font-family: var(--font-body); font-size: 0.875rem; font-weight: 400; color: var(--text-secondary); margin: 0; }
+        @media (min-width: 768px) { #close-sidebar-button { display: none; } .sidebar { position: sticky; top: 0; transform: none; z-index: 30; } }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#e6634c", "background-light": "#f8f6f6", "background-dark": "#211411", "app-bg": "#F5F0E6", "chat-bg": "#FAF7F2", "text-main": "#4E403B", "text-secondary": "#955b50", "chip-bg": "#f3e9e8", },
+                    fontFamily: { "display": ["Manrope", "sans-serif"] },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="font-display bg-app-bg text-text-main">
+
+    <header class="mobile-header">
+        <div class="logo-container">
+            <img src="https://placehold.co/100x100/png?text=logo.png" alt="Rise Again Logo" class="logo-img">
+            <h1 class="logo-title">Rise Again</h1>
+        </div>
+        <button id="hamburger-button" class="icon-button">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </header>
+
+    <div class="md:flex">
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-top">
+                <div class="sidebar-header">
+                    <div class="logo-container">
+                        <img src="https://placehold.co/100x100/png?text=logo.png" alt="Rise Again Logo" class="logo-img">
+                        <h1 class="logo-title">Rise Again</h1>
+                    </div>
+                    <button id="close-sidebar-button" class="icon-button">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                </div>
+                <nav class="sidebar-nav">
+                    <a class="nav-link active" href="#"> <i class="fa-solid fa-house"></i>
+                        <p>Dashboard</p>
+                    </a>
+                    <a class="nav-link" href="#">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                        <p>Healing Hub</p>
+                    </a>
+                    <a class="nav-link" href="#">
+                        <i class="fa-solid fa-users"></i>
+                        <p>Anonymous Community</p>
+                    </a>
+                    <a class="nav-link" href="#">
+                        <i class="fa-solid fa-lock"></i>
+                        <p>Digital Locker</p>
+                    </a>
+                </nav>
+            </div>
+            <div class="sidebar-bottom">
+                <a class="nav-link" href="#">
+                    <i class="fa-solid fa-gear"></i>
+                    <p>Settings</p>
+                </a>
+                <div class="divider"></div>
+                <div class="user-profile">
+                    <div class="avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC5YqndIBqsokDK8ko2vdMVUJCtOr1FF5UqHpHuqVZ1Y-WofbIDtOrv2wR1CUCu1tGu8V4L5cpYMZmEIkmpH_ZatKxJMcRooFLMO3QkAwjSCTslkOfwB12s9gVR1HGdaPoQUt8pUnnQ4kLrHOGwrLlcczmbM4sXkjb1kCy78hPRkKIvgYjfsGPVyScJq2aesTxsVgN3vyt3iRZqr-PQkBITKB68EruasC0NhMCK_XdI9DQpws77pkbKLz3hoqwgBopQhy8-xgYnDk");'></div>
+                    <div class="user-details">
+                        <h1>Amelia</h1>
+                        <p>amelia.r@email.com</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="relative flex min-h-screen w-full flex-col items-center justify-center px-4 pb-4 pt-14 md:p-4 group/design-root">
+            <div class="layout-container flex h-full max-h-[720px] w-full max-w-2xl flex-col overflow-hidden rounded-xl bg-chat-bg shadow-2xl">
+                <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-black/10 px-6 py-4">
+                    <div class="flex items-center gap-3 text-text-main">
+                        <div class="text-primary text-2xl">
+                            <svg class="h-6 w-6" fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-lg font-bold leading-tight tracking-[-0.015em] text-text-main">Elly</h2>
+                    </div>
+                    <button aria-label="Close Chat" class="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-transparent text-text-main/70 transition-colors hover:bg-black/5">
+                        <span class="material-symbols-outlined text-2xl">close</span>
+                    </button>
+                </header>
+                
+                <div class="flex flex-1 flex-col gap-4 overflow-y-auto p-6">
+                    </div>
+
+                <footer class="flex flex-col border-t border-solid border-t-black/10 bg-chat-bg p-4">
+                    <div class="mb-3 flex flex-wrap gap-2 px-2">
+                        <button class="flex h-8 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-lg bg-chip-bg px-4 transition-colors hover:bg-primary/20">
+                            <p class="text-sm font-medium leading-normal text-text-main">How are you feeling?</p>
+                        </button>
+                        <button class="flex h-8 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-lg bg-chip-bg px-4 transition-colors hover:bg-primary/20">
+                            <p class="text-sm font-medium leading-normal text-text-main">Let's do a breathing exercise</p>
+                        </button>
+                    </div>
+                    <div class="relative flex items-center">
+                        <input class="h-12 w-full rounded-lg border-none bg-chip-bg py-3 pl-4 pr-12 text-text-main placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary/50" placeholder="Type your message..." type="text" />
+                        <button aria-label="Send Message" class="absolute right-2 flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-white transition-colors hover:bg-primary/90">
+                            <span class="material-symbols-outlined text-xl">send</span>
+                        </button>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Navbar Logic (Aapka original code) ---
+            const hamburgerButton = document.getElementById('hamburger-button');
+            const closeSidebarButton = document.getElementById('close-sidebar-button');
+            const sidebar = document.getElementById('sidebar');
+
+            if (hamburgerButton && sidebar) {
+                hamburgerButton.addEventListener('click', () => {
+                    sidebar.classList.add('is-open');
+                });
+            }
+            if (closeSidebarButton && sidebar) {
+                closeSidebarButton.addEventListener('click', () => {
+                    sidebar.classList.remove('is-open');
+                });
+            }
+            // --- End Navbar Logic ---
+
+            // --- START: New Node.js Chat Logic ---
+
+            // 1. UI Elements
+            const conversationArea = document.querySelector(".overflow-y-auto.p-6");
+            const sendButton = document.querySelector("button[aria-label='Send Message']");
+            const messageInput = document.querySelector("input[placeholder='Type your message...']");
+
+            // 2. Chat History (Taa ki AI ko context yaad rahe)
+            // Format Gemini API ke hisaab se hai
+            let chatHistory = [];
+
+            // 3. Send Message Function
+            async function sendMessage() {
+                const text = messageInput.value.trim();
+                if (text === "") return;
+
+                // 1. Message ko turant screen par dikhayein
+                displayMessage("you", text);
+                messageInput.value = ""; // Input clear karein
+
+                // 2. Typing indicator dikhayein
+                showTypingIndicator();
+
+                // 3. User ke message ko history mein add karein
+                chatHistory.push({
+                    role: "user",
+                    parts: [{ text: text }]
+                });
+
+                try {
+                    // 4. Apne Node.js server ko message bhejein
+                    const response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            message: text,
+                            history: chatHistory // Poori history bhejein
+                        }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Server returned an error');
+                    }
+
+                    const data = await response.json();
+                    const aiReply = data.reply;
+
+                    // 5. AI ke jawaab ko history mein add karein
+                    chatHistory.push({
+                        role: "model",
+                        parts: [{ text: aiReply }]
+                    });
+
+                    // 6. AI ka jawaab screen par dikhayein
+                    displayMessage("elly", aiReply);
+
+                } catch (error) {
+                    console.error("Error sending message:", error);
+                    displayMessage("elly", "Oops! Something went wrong. Please try again.");
+                }
+            }
+
+            // 7. Display Message Function (Yeh HTML banata hai)
+function displayMessage(user, text) {
+    // Typing indicator (agar hai) toh hata dein
+    const typingIndicator = conversationArea.querySelector(".typing-indicator");
+    if (typingIndicator) {
+        typingIndicator.remove();
+    }
+
+    let messageHtml = "";
+    if (user === "you") {
+        messageHtml = `
+        <div class="flex items-end gap-3 self-end justify-end">
+            <div class="flex flex-1 flex-col items-end gap-1">
+                <p class="max-w-[360px] text-right text-[13px] font-medium leading-normal text-text-secondary">You</p>
+                <p class="flex max-w-[360px] rounded-lg bg-primary px-4 py-3 text-base font-normal leading-normal text-white">${text}</p>
+            </div>
+            <div class="h-10 w-10 shrink-0 rounded-full bg-cover bg-center bg-no-repeat" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDU8zgYe_j2TInF0v--Wu5YFHC169xUhsRAU0JHTFvV0gaJd8ufA8Y6kq5y9hVInWdpWKmbNtE5_8JtGFgGALGo2FsEl5s71HaHtyk8oUsWAyyWG7RMO9MzTPCMOoK0gc5tIr0BrT-OBnMd9oL3ANSHkv8TbX7-b5X2eCMtQT3ofMnJtuc4wwqrNLBbRaHXXRxd0a_DNfu4UnJpq7zijwTeCxT1PYtoESZjIUh6bI3mV8fAMPuof5NMf3PjLUinf0_jS-bL5wBYSQ48")'></div>
+        </div>`;
+    } else {
+        // --- THIS IS THE CHANGED PART ---
+        messageHtml = `
+        <div class="flex items-end gap-3 self-start">
+            <div class="h-10 w-10 shrink-0 rounded-full bg-cover bg-center bg-no-repeat" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCnJV2itOio3kgMj0yfg7txWeFsZZgwljSmtgjC99x5W5sU68xdufmw9q2X65DhsLTkiGesGSAHtlCpHcwZmWGrqkRK1arLFvyiF99ITxchZuETSsq042Q-M-kqRk8OWNGYDtLiJgfwaGeQiDngpp_Fm9HJv7dkZV6C2wt6GfKPc6LEVFKfE4cjmuU9DDhOKY6BjXYl-TCembDtZN9yOa2UjFZl7XW_AL3hp9-Izrd-F1e2jOKpZH58h7G7amDR2VK6eeh4NPtACnUt");'></div>
+            <div class="flex flex-1 flex-col items-start gap-1">
+                <p class="max-w-[360px] text-[13px] font-medium leading-normal text-text-secondary">Elly</p>
+
+                <div class="prose max-w-[360px] rounded-lg bg-chip-bg px-4 py-3 text-base font-normal leading-normal text-text-main">
+                    ${marked.parse(text)}
+                </div>
+
+            </div>
+        </div>`;
+    }
+    conversationArea.insertAdjacentHTML("beforeend", messageHtml);
+    conversationArea.scrollTop = conversationArea.scrollHeight;
+}
+
+            // 8. Typing Indicator Function
+            function showTypingIndicator() {
+                const indicatorHtml = `
+                <div class="flex items-end gap-3 self-start typing-indicator">
+                    <div class="h-10 w-10 shrink-0 rounded-full bg-cover bg-center bg-no-repeat" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAroIs-LzyaUbT02P48KVHUjA5lggsQLYgEcjnECMSRffK3ccKDexyvW_K8gjZihnN3q9qLx_CgKHQtonwyTWSiaYxh3RPXQtecUjaYO1OIYfVw2P-tjS348V4H6zJgGm_5GnwVvIj0SBLbW4TNkVfmi3-5PP0EI5hUHBzFq3mDnqTBWGy6ZD0FG-en-1ziWbf9nhm2u1NB7VUgAz4uaMG0IcMOOFYxctEhuxlyChdsMa_-IWj_DTJcOdgElKP7LpCIHJXBx40dVYEU");'></div>
+                    <div class="flex flex-1 flex-col items-start gap-1">
+                        <div class="flex max-w-[360px] items-center space-x-1.5 rounded-lg bg-chip-bg px-4 py-3 text-base font-normal leading-normal text-text-main">
+                            <span class="h-2 w-2 animate-pulse rounded-full bg-text-main/40 [animation-delay:-0.3s]"></span>
+                            <span class="h-2 w-2 animate-pulse rounded-full bg-text-main/40 [animation-delay:-0.15s]"></span>
+                            <span class="h-2 w-2 animate-pulse rounded-full bg-text-main/40"></span>
+                        </div>
+                    </div>
+                </div>`;
+                conversationArea.insertAdjacentHTML("beforeend", indicatorHtml);
+                conversationArea.scrollTop = conversationArea.scrollHeight;
+            }
+
+            // 9. Events Jodna
+            sendButton.addEventListener("click", sendMessage);
+            messageInput.addEventListener("keypress", (e) => {
+                if (e.key === "Enter") {
+                    sendMessage();
+                }
+            });
+
+            // 10. Static messages ko clear karna
+            conversationArea.innerHTML = "";
+            // Pehla message Elly se
+            displayMessage("elly", "Hello, I'm Elly. What's on your mind today?");
+            // ... aur usse history mein add karna
+            chatHistory.push({
+                role: "model",
+                parts: [{ text: "Hello, I'm Elly. What's on your mind today?" }]
+            });
+
+            // --- END: New Node.js Chat Logic ---
+        });
+    </script>
+    </body>
+
+</html>
